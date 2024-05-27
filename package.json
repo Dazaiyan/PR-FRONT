@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "primeflex": "^3.3.1",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.6.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start-backend": "cd practiiereport/backend/practiie-report-backend && npm start",
+    "dev": "concurrently \"npm start\" \"npm run start-backend\""
+  }
+  
+}

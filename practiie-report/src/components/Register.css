@@ -1,0 +1,114 @@
+/* src/components/Register.css */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #2c3e50; /* Fondo general azul */
+}
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-content {
+    display: flex;
+    background-color: #ecf0f1;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.register-left, .register-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ecf0f1; /* Fondo blanco en ambas secciones */
+    color: #2c3e50;
+}
+
+.register-left {
+    flex-direction: column;
+    width: 700px;
+    height: 800px; /* Ajustar el ancho para la parte izquierda */
+    border-right: 1px solid black; /* Línea negra entre las secciones */
+}
+
+.register-right {
+    flex-direction: column;
+    width: 700px;
+    height: 800px;
+    padding: 40px; /* Ajustar el padding para el contenido de la derecha */
+}
+
+.register-logo {
+    width: 450px;
+    margin-bottom: 20px;
+}
+
+.register-left h2 {
+    margin-bottom: 50px;
+    color: #2c3e50; /* Color del texto en la parte derecha */
+    font-size: 1.7em;
+}
+
+.p-field {
+    margin-bottom: 20px;
+    text-align: left;
+    width: 100%;
+}
+
+.p-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #2c3e50; /* Color del texto en los labels */
+    font-size: 1.5em;
+}
+
+.p-field input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1.6em;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.6em;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+p {
+    margin-top: 10px;
+    color: #2c3e50; /* Color del texto en el párrafo */
+}
+
+p a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+    .register-container {
+        max-width: 1200px;
+        margin: auto;
+    }
+}
