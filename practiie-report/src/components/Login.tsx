@@ -1,3 +1,4 @@
+// src/components/Login.tsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
@@ -17,7 +18,6 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         handleLogin(email, password);
-        navigate('/home');
     };
 
     const handleRegisterClick = () => {
