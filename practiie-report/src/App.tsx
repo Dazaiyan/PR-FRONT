@@ -1,20 +1,24 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginView from './views/LoginView';
-import RegisterView from './views/RegisterView';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Register from './components/Register';
+import Home from './components/Home'; // Suponiendo que Home es un componente de PrimeReact
+
+const theme = createTheme();
 
 const App: React.FC = () => {
     return (
-        <Router>
-            <div className="App">
+        <ThemeProvider theme={theme}>
+            <Router>
                 <Routes>
-                    <Route path="/login" element={<LoginView />} />
-                    <Route path="/register" element={<RegisterView />} />
+                    <Route path="/" element={<Register />} />
+                    <Route path="/home" element={<Home />} />
                 </Routes>
-            </div>
-        </Router>
+            </Router>
+        </ThemeProvider>
     );
 };
 
 export default App;
+
+

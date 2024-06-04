@@ -1,11 +1,11 @@
-// src/controllers/LoginController.ts
+// LoginController.ts
 import { loginUser } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 
 const LoginController = () => {
     const navigate = useNavigate();
 
-    const handleLogin = async (email: string, password: string) => {
+    const handleLogin = async (email: string, password: string): Promise<{ error?: string }> => {
         try {
             const response = await loginUser({ email, password });
             if (response && response.token) {
@@ -13,12 +13,17 @@ const LoginController = () => {
                 localStorage.setItem('token', response.token);
                 navigate('/home');
             } else {
-                alert('Login failed. Please check your credentials.');
+                // Devolver un objeto con la propiedad "error" si las credenciales son incorrectas
+                return { error: 'Correo electrónico o contraseña incorrectos. Por favor, intenta nuevamente.' };
             }
         } catch (error) {
             console.error('Login failed:', error);
-            alert('Login failed. Please try again later.');
+            // Devolver un objeto con la propiedad "error" si hay un error general
+            return { error: 'Ha ocurrido un error al iniciar sesión. Por favor, intenta nuevamente más tarde.' };
         }
+
+        // Devolver un objeto vacío si la función no devuelve ningún error
+        return {};
     };
 
     return { handleLogin };

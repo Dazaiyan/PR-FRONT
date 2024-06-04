@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Asegúrate de importar Route desde 'react-router-dom'
 import LoginView from '../views/LoginView';
 import RegisterView from '../views/RegisterView';
 import Home from '../components/Home';
@@ -18,4 +18,5 @@ const AppRoutes: React.FC = () => {
 };
 
 export default AppRoutes;
+
 

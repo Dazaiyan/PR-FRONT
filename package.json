@@ -5,12 +5,14 @@
     "primereact": "^10.6.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "dotenv -e .env react-scripts start",
+    "build": "dotenv -e .env react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start-backend": "cd practiiereport/backend/practiie-report-backend && npm start",
     "dev": "concurrently \"npm start\" \"npm run start-backend\""
+},
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   }
-  
 }

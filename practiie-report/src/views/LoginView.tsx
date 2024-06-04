@@ -1,7 +1,6 @@
-// src/views/LoginView.tsx
 import React from 'react';
-import LoginController from '../controllers/LoginController';
 import Login from '../components/Login';
+import LoginController from '../controllers/LoginController';
 
 const LoginView: React.FC = () => {
     const { handleLogin } = LoginController(); // Extraemos handleLogin del LoginController
@@ -10,3 +9,4 @@ const LoginView: React.FC = () => {
 };
 
 export default LoginView;
+
