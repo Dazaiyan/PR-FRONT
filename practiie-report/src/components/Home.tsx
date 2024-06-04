@@ -1,8 +1,12 @@
-// src/views/HomeView.tsx
 import React from 'react';
 import './Home.css';
+import { capitalizeFirstLetter } from '../utils/helpers'; // Importa la función capitalizeFirstLetter desde helpers.ts
+import TemplateWidget from '../utils/widgets/TemplateWidget';
 
 const Home: React.FC = () => {
+  // Obtener el nombre del usuario desde localStorage
+  const userName = localStorage.getItem('userName') || '';
+
   return (
     <div className="home-container">
       <div className="home-header">
@@ -11,7 +15,7 @@ const Home: React.FC = () => {
         </div>
         <div className="profile">
           <img src="/profile-icon.png" alt="Profile Icon" className="profile-icon" />
-          <span>Perfil</span>
+          <span>{capitalizeFirstLetter(userName)}</span> {/* Mostrar el nombre del usuario */}
         </div>
       </div>
       <div className="home-main">
@@ -25,18 +29,10 @@ const Home: React.FC = () => {
         <div className="recommendations">
           <h3>Te puede interesar:</h3>
           <div className="templates">
-            <div className="template">
-              <img src="/template-icon.png" alt="Template Icon" />
-            </div>
-            <div className="template">
-              <img src="/template-icon.png" alt="Template Icon" />
-            </div>
-            <div className="template">
-              <img src="/template-icon.png" alt="Template Icon" />
-            </div>
-            <div className="template">
-              <img src="/template-icon.png" alt="Template Icon" />
-            </div>
+            <TemplateWidget imageSrc="/template-icon.png" />
+            <TemplateWidget imageSrc="/template-icon.png" />
+            <TemplateWidget imageSrc="/template-icon.png" />
+            <TemplateWidget imageSrc="/template-icon.png" />
           </div>
         </div>
       </div>
@@ -45,3 +41,4 @@ const Home: React.FC = () => {
 };
 
 export default Home;
+

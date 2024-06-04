@@ -95,12 +95,20 @@ p {
 }
 
 p a {
-    color: #3498db;
+    color: #3498db00;
     text-decoration: none;
 }
 
 p a:hover {
     text-decoration: underline;
+}
+
+.login-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 20px;
 }
 
 .link-button {
@@ -114,7 +122,8 @@ p a:hover {
 }
 
 .link-button:hover {
-    text-decoration: none;
+    text-decoration: underline;
+    background: none; /* Eliminar el fondo al pasar el mouse */
 }
 
 @media (min-width: 768px) {

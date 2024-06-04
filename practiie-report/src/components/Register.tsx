@@ -8,13 +8,14 @@ import Alert from '../utils/alerts';
 import './Register.css';
 import { AlertTitle } from '@mui/material';
 
-
 const Register: React.FC = () => {
     const [name, setName] = useState<string>('');
     const [lastname, setLastname] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [nameError, setNameError] = useState<string>('');
+    const [lastnameError, setLastnameError] = useState<string>('');
     const [emailError, setEmailError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
     const [confirmPasswordError, setConfirmPasswordError] = useState<string>('');
@@ -35,37 +36,36 @@ const Register: React.FC = () => {
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-    
-        if (!name || !lastname || !email || !password || !confirmPassword) {
-            setAlertSeverity('error');
-            setAlertMessage('Todos los campos son obligatorios.');
-            setShowAlert(true);
-            return;
-        }
-    
+
+        const isNameValid = name.trim() !== '';
+        const isLastnameValid = lastname.trim() !== '';
         const isEmailValid = validateEmail(email);
         const isPasswordValid = validatePassword(password);
         const isConfirmPasswordValid = password === confirmPassword;
-    
+
+        setNameError(isNameValid ? '' : 'El nombre es obligatorio.');
+        setLastnameError(isLastnameValid ? '' : 'El apellido es obligatorio.');
         setEmailError(isEmailValid ? '' : 'Ingrese un correo electrónico válido.');
         setPasswordError(isPasswordValid ? '' : 'Debe contener mínimo 8 caracteres, 1 mayúscula y 1 carácter especial.');
         setConfirmPasswordError(isConfirmPasswordValid ? '' : '¡Las contraseñas no coinciden!');
-    
-        if (!isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
+
+        if (!isNameValid || !isLastnameValid || !isEmailValid || !isPasswordValid || !isConfirmPasswordValid) {
             setAlertSeverity('error');
             setAlertMessage('Por favor, revise los datos ingresados.');
             setShowAlert(true);
             return;
         }
-    
+
         try {
             const user = { name, lastname, email, password };
-            const response = await registerUser(user);
-            console.log('User registered successfully:', response);
+            await registerUser(user);
             setAlertSeverity('success');
             setAlertMessage('Usuario registrado correctamente');
             setShowAlert(true);
-            navigate('/login');
+            setTimeout(() => {
+                setShowAlert(false);
+                navigate('/login');
+            }, 2000);
         } catch (error: any) {
             console.error('Registration failed:', error);
             setAlertSeverity('error');
@@ -82,11 +82,13 @@ const Register: React.FC = () => {
                     <form onSubmit={handleRegister}>
                         <div className="p-field">
                             <label htmlFor="name">Nombre</label>
-                            <InputText id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your name" />
+                            <InputText id="name" value={name} onChange={(e) => setName(e.target.value)} className={nameError ? 'error-input' : ''} placeholder="Enter your name" />
+                            {nameError && <div className="error-message">{nameError}</div>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="lastname">Apellido</label>
-                            <InputText id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} placeholder="Enter your lastname" />
+                            <InputText id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} className={lastnameError ? 'error-input' : ''} placeholder="Enter your lastname" />
+                            {lastnameError && <div className="error-message">{lastnameError}</div>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="email">Dirección de correo</label>
@@ -111,13 +113,11 @@ const Register: React.FC = () => {
                 </div>
             </div>
             {showAlert && (
-            <Alert severity={alertSeverity} onClose={() => setShowAlert(false)} sx={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-                <AlertTitle>{alertSeverity === 'success' ? 'Registro exitoso' : 'Error de registro'}</AlertTitle>
-                {alertMessage}
-            </Alert>
-                
+                <Alert severity={alertSeverity} onClose={() => setShowAlert(false)} sx={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
+                    <AlertTitle>{alertSeverity === 'success' ? 'Registro exitoso' : 'Error de registro'}</AlertTitle>
+                    {alertMessage}
+                </Alert>
             )}
-            
         </div>
     );
 };

@@ -10,7 +10,7 @@ const LoginController = () => {
             const response = await loginUser({ email, password });
             if (response && response.token) {
                 console.log('Login successful:', response);
-                localStorage.setItem('token', response.token);
+                localStorage.setItem('token', response.token); // Almacenar el token en localStorage
                 navigate('/home');
             } else {
                 // Devolver un objeto con la propiedad "error" si las credenciales son incorrectas
@@ -30,3 +30,4 @@ const LoginController = () => {
 };
 
 export default LoginController;
+

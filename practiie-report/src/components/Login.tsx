@@ -7,7 +7,7 @@ import { Alert, AlertTitle } from '@mui/material'; // Importa Alert y AlertTitle
 import './Login.css';
 
 interface LoginProps {
-    handleLogin: (email: string, password: string) => Promise<{ error?: string }>;
+    handleLogin: (email: string, password: string) => Promise<{ error?: string, name?: string }>; // Agrega name al tipo de retorno
 }
 
 const Login: React.FC<LoginProps> = ({ handleLogin }) => {
@@ -18,7 +18,6 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
     const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('success');
     const navigate = useNavigate();
     
-
     const validateEmail = (email: string) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return re.test(String(email).toLowerCase());
@@ -38,6 +37,9 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
             setAlertSeverity('error');
             setAlertMessage(result.error);
             setShowAlert(true);
+        } else if (result.name) { // Almacena el nombre en localStorage
+            localStorage.setItem('userName', result.name);
+            navigate('/home');
         }
     };
 
@@ -70,7 +72,10 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
                         )}
                         <Button type="submit" label="Iniciar sesión"/>
                     </form>
-                    <p>No tienes una cuenta? <button className="link-button" onClick={handleRegisterClick}>Regístrate aquí</button></p>
+                    <div className="login-footer">
+                        <p>No tienes una cuenta?</p>
+                        <button className="link-button" onClick={handleRegisterClick}>Regístrate aquí</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,3 +83,4 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
 };
 
 export default Login;
+
