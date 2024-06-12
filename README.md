@@ -29,6 +29,9 @@ git clone https://github.com/Dazaiyan/PR-FRONT.git
 
 ## Instalar Dependencias
 - npm install
+- npm install primereact --save
+- npm install react-router-dom --save
+- npm install @mui/material --save
 
 ## Configuracion
 - En el archivo src/services/api.ts asegúrate de que la URL base del API esté configurada correctamente:
