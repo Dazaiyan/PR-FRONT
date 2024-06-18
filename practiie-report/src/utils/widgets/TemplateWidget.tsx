@@ -2,15 +2,21 @@ import React from 'react';
 import './TemplateWidget.css';
 
 interface TemplateWidgetProps {
-  imageSrc: string;
+    imageSrc: string;
+    onClick: () => void;
+    onRemove: () => void; // Añadir la prop onRemove
 }
 
-const TemplateWidget: React.FC<TemplateWidgetProps> = ({ imageSrc }) => {
-  return (
-    <div className="template">
-      <img src={imageSrc} alt="Template Icon" />
-    </div>
-  );
+const TemplateWidget: React.FC<TemplateWidgetProps> = ({ imageSrc, onClick, onRemove }) => {
+    return (
+        <div className="template" onClick={onClick}>
+            <img src={imageSrc} alt="Template Icon" />
+            <button className="remove-button" onClick={(e) => { e.stopPropagation(); onRemove(); }}>
+                X
+            </button>
+        </div>
+    );
 };
 
 export default TemplateWidget;
+

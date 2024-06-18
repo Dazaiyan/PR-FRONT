@@ -1,4 +1,3 @@
-/* src/views/Home.css */
 body {
   margin: 0;
   padding: 0;
@@ -136,7 +135,6 @@ body {
   width: 100px;
   height: 100px;
   margin-bottom: 10px;
-  
 }
 
 .template button {
@@ -145,6 +143,24 @@ body {
   font-size: 24px;
   cursor: pointer;
   color: #333;
+}
+
+.add-template-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007ad9;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  max-width: 850px; /* Asegura que el botón tenga el mismo ancho que los otros elementos */
+  box-sizing: border-box;
+}
+
+.add-template-button:hover {
+  background-color: #005fa3;
 }
 
 /* Media Queries para hacer la página más responsiva */
@@ -192,3 +208,4 @@ body {
       margin-bottom: 5px;
   }
 }
+
