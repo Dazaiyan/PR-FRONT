@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
-import { Alert, AlertTitle } from '@mui/material'; // Importa Alert y AlertTitle de MUI
+import { Alert, AlertTitle } from '@mui/material';
+import { useLoaderContext } from './LoaderContext'; // Corrige la importación
 import './Login.css';
 
 interface LoginProps {
-    handleLogin: (email: string, password: string) => Promise<{ error?: string, name?: string }>; // Agrega name al tipo de retorno
+    handleLogin: (email: string, password: string) => Promise<{ error?: string, name?: string }>;
 }
 
 const Login: React.FC<LoginProps> = ({ handleLogin }) => {
@@ -17,6 +18,7 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('success');
     const navigate = useNavigate();
+    const { setLoading } = useLoaderContext(); // Usa el contexto correctamente
     
     const validateEmail = (email: string) => {
         const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -32,7 +34,11 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
             return;
         }
 
+        setLoading(true); // Muestra el loader
+
         const result = await handleLogin(email, password);
+        setLoading(false); // Oculta el loader
+
         if (result.error) {
             setAlertSeverity('error');
             setAlertMessage(result.error);
@@ -83,4 +89,6 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
 };
 
 export default Login;
+
+
 

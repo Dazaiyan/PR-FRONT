@@ -1,10 +1,10 @@
-// src/index.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import AppRoutes from './routes/AppRoutes';
 import reportWebVitals from './reportWebVitals';
 import { PrimeReactProvider } from 'primereact/api';
+import { LoaderProvider } from './components/LoaderContext';
 
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -17,7 +17,9 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <PrimeReactProvider>
-      <AppRoutes />
+      <LoaderProvider>
+        <AppRoutes />
+      </LoaderProvider>
     </PrimeReactProvider>
   </React.StrictMode>
 );
