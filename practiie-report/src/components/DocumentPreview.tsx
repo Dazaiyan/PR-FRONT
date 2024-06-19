@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { renderAsync } from 'docx-preview';
+import './DocumentPreview.css'; // Importa el CSS
 
 interface DocumentPreviewProps {
   filePath: string;
@@ -39,22 +40,18 @@ const DocumentPreview: React.FC<DocumentPreviewProps> = ({ filePath }) => {
     if (doc && containerRef.current) {
       const allPages = containerRef.current.querySelectorAll('.dpx-page');
       allPages.forEach((page, index) => {
-        if (index === currentPage) {
-          (page as HTMLElement).style.display = 'block';
-        } else {
-          (page as HTMLElement).style.display = 'none';
-        }
+        (page as HTMLElement).style.display = index === currentPage ? 'block' : 'none';
       });
     }
   }, [currentPage, doc]);
 
   return (
     <div className="document-preview-container">
+      <div className="document-preview" ref={containerRef}></div>
       <div className="document-preview-controls">
         <button onClick={handlePrevPage} disabled={currentPage === 0}>{"<"}</button>
         <button onClick={handleNextPage} disabled={doc && currentPage === doc.parts.length - 1}>{">"}</button>
       </div>
-      <div className="document-preview" ref={containerRef}></div>
     </div>
   );
 };

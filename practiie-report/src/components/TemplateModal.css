@@ -14,64 +14,84 @@
 .modal-content {
   background: white;
   padding: 20px;
-  border-radius: 8px;
+  border-radius: 35px; /* Bordes redondeados */
   text-align: center;
   position: relative;
-  width: 60%;
+  width: 80%;
   height: 80%;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 1.3); /* Sombra en el lado derecho */
 }
 
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-.document-container {
-  max-height: 70%;
-  overflow: hidden;
-  position: relative;
-}
-
-.document-preview-container {
+.left-section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+.document-container {
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+  position: relative;
 }
 
 .document-preview-controls {
-  margin-bottom: 10px;
-}
-
-.document-preview {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border: 1px solid #ccc;
   display: flex;
   justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.right-section {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  width: 40%;
 }
 
-.document-preview .dpx-page {
-  display: none; /* Hide all pages by default */
+.right-section h2 {
+  margin-bottom: 20px;
+  color: #122533; /* Azul oscuro */
+  font-size: 1.8rem; /* Tamaño de fuente */
+  font-weight: bold; /* Peso de la fuente */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Sombra de texto */
+  font-family: 'Poppins', sans-serif; /* Tipo de letra */
 }
 
-.document-preview .dpx-page:first-child {
-  display: block; /* Show the first page */
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  align-items: center; /* Asegura que los botones estén alineados verticalmente */
 }
 
 .create-report-button {
-  margin-top: 20px;
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #3E9DC2; /* Ajustar el color */
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 10px; /* Ajustar el borde */
   cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añadir sombra */
+}
+
+.close-modal-button {
+  width: 40px;
+  height: 40px;
+  background-color: #122533; /* Ajustar el color */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Añadir sombra */
 }
