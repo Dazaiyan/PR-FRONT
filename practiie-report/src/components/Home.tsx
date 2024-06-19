@@ -8,15 +8,15 @@ const MAX_TEMPLATES = 4;
 
 const Home: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState<{ id: number; name: string; imageSrc: string } | null>(null);
-  const [templates, setTemplates] = useState<{ id: number; name: string; imageSrc: string }[]>([
-    { id: 1, name: 'Plantilla 1', imageSrc: '/template-icon.png' },
-    { id: 2, name: 'Plantilla 2', imageSrc: '/template-icon.png' },
+  const [selectedTemplate, setSelectedTemplate] = useState<{ id: number; name: string; filePath: string } | null>(null);
+  const [templates, setTemplates] = useState<{ id: number; name: string; filePath: string }[]>([
+    { id: 1, name: 'Plantilla 1', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
+    { id: 2, name: 'Plantilla 2', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
   ]);
 
   const userName = localStorage.getItem('userName') || '';
 
-  const openModal = (template: { id: number; name: string; imageSrc: string }) => {
+  const openModal = (template: { id: number; name: string; filePath: string }) => {
     setSelectedTemplate(template);
     setModalVisible(true);
   };
@@ -56,7 +56,7 @@ const Home: React.FC = () => {
             {templates.map((template) => (
               <TemplateWidget
                 key={template.id}
-                imageSrc={template.imageSrc}
+                imageSrc={template.filePath} // Usa la propiedad filePath para la imagen o icono
                 onClick={() => openModal(template)}
                 onRemove={() => handleRemoveTemplate(template.id)}
               />

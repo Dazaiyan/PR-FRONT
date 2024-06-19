@@ -1,57 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { renderAsync } from 'docx-preview';
-import './DocumentPreview.css'; // Importa el CSS
+import React from 'react';
+import { Worker, Viewer } from '@react-pdf-viewer/core';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
+import './DocumentPreview.css';
 
 interface DocumentPreviewProps {
   filePath: string;
 }
 
 const DocumentPreview: React.FC<DocumentPreviewProps> = ({ filePath }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [doc, setDoc] = useState<any>(null);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  useEffect(() => {
-    const fetchDocument = async () => {
-      const response = await fetch(filePath);
-      const arrayBuffer = await response.arrayBuffer();
-      if (containerRef.current) {
-        const document = await renderAsync(arrayBuffer, containerRef.current, undefined, { ignoreWidth: true, ignoreHeight: true });
-        setDoc(document);
-      }
-    };
-
-    fetchDocument();
-  }, [filePath]);
-
-  const handleNextPage = () => {
-    if (doc && currentPage < doc.parts.length - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (doc && currentPage > 0) {
-      setCurrentPage(currentPage - 1);
-    }
-  };
-
-  useEffect(() => {
-    if (doc && containerRef.current) {
-      const allPages = containerRef.current.querySelectorAll('.dpx-page');
-      allPages.forEach((page, index) => {
-        (page as HTMLElement).style.display = index === currentPage ? 'block' : 'none';
-      });
-    }
-  }, [currentPage, doc]);
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   return (
     <div className="document-preview-container">
-      <div className="document-preview" ref={containerRef}></div>
-      <div className="document-preview-controls">
-        <button onClick={handlePrevPage} disabled={currentPage === 0}>{"<"}</button>
-        <button onClick={handleNextPage} disabled={doc && currentPage === doc.parts.length - 1}>{">"}</button>
-      </div>
+      <Worker workerUrl={`https://unpkg.com/pdfjs-dist@2.7.570/build/pdf.worker.min.js`}>
+        <div className="document-preview">
+          <Viewer fileUrl={filePath} plugins={[defaultLayoutPluginInstance]} />
+        </div>
+      </Worker>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import DocumentPreview from './DocumentPreview';
 interface TemplateModalProps {
   visible: boolean;
   onClose: () => void;
-  template: { id: number; name: string; imageSrc: string } | null;
+  template: { id: number; name: string; filePath: string } | null;
 }
 
 const TemplateModal: React.FC<TemplateModalProps> = ({ visible, onClose, template }) => {
@@ -15,7 +15,7 @@ const TemplateModal: React.FC<TemplateModalProps> = ({ visible, onClose, templat
     <div className="modal-overlay">
       <div className="modal-content">
         <div className="left-section">
-          <DocumentPreview filePath="/INFORMES DE PRACTICAS PRE-PROFESIONALES.docx" />
+          <DocumentPreview filePath={template.filePath} />
         </div>
         <div className="right-section">
           <h2>Plantilla Practicas Pre-Profesionales</h2>
