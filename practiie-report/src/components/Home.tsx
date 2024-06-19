@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import './Home.css';
 import { capitalizeFirstLetter } from '../utils/helpers';
 import TemplateWidget from '../utils/widgets/TemplateWidget';
-import AddTemplateModal from '../components/AddTemplateModal';
-import { Button } from 'primereact/button';
+import TemplateModal from './TemplateModal';
 
-const MAX_TEMPLATES = 4; // Definir el límite máximo de plantillas
+const MAX_TEMPLATES = 4;
 
 const Home: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [addTemplateModalVisible, setAddTemplateModalVisible] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<{ id: number; name: string; imageSrc: string } | null>(null);
   const [templates, setTemplates] = useState<{ id: number; name: string; imageSrc: string }[]>([
     { id: 1, name: 'Plantilla 1', imageSrc: '/template-icon.png' },
     { id: 2, name: 'Plantilla 2', imageSrc: '/template-icon.png' },
@@ -17,33 +16,14 @@ const Home: React.FC = () => {
 
   const userName = localStorage.getItem('userName') || '';
 
-  const openModal = () => {
+  const openModal = (template: { id: number; name: string; imageSrc: string }) => {
+    setSelectedTemplate(template);
     setModalVisible(true);
   };
 
   const closeModal = () => {
     setModalVisible(false);
-  };
-
-  const openAddTemplateModal = () => {
-    setAddTemplateModalVisible(true);
-  };
-
-  const closeAddTemplateModal = () => {
-    setAddTemplateModalVisible(false);
-  };
-
-  const handleAddTemplate = (template: { name: string; file: File }) => {
-    if (templates.length < MAX_TEMPLATES) {
-      const newTemplate = {
-        id: templates.length + 1,
-        name: template.name,
-        imageSrc: URL.createObjectURL(template.file),
-      };
-      setTemplates([...templates, newTemplate]);
-    } else {
-      alert("Se ha alcanzado el número máximo de plantillas.");
-    }
+    setSelectedTemplate(null);
   };
 
   const handleRemoveTemplate = (id: number) => {
@@ -77,27 +57,20 @@ const Home: React.FC = () => {
               <TemplateWidget
                 key={template.id}
                 imageSrc={template.imageSrc}
-                onClick={openModal}
+                onClick={() => openModal(template)}
                 onRemove={() => handleRemoveTemplate(template.id)}
               />
             ))}
           </div>
         </div>
-        <Button className="add-template-button" onClick={openAddTemplateModal}>
-          Agregar Plantilla
-        </Button>
       </div>
-      <AddTemplateModal
-        visible={addTemplateModalVisible}
-        onHide={closeAddTemplateModal}
-        onAdd={handleAddTemplate}
+      <TemplateModal
+        visible={modalVisible}
+        onClose={closeModal}
+        template={selectedTemplate}
       />
     </div>
   );
 };
 
 export default Home;
-
-
-
-
