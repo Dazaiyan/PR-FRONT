@@ -1,11 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Home.css';
-import { capitalizeFirstLetter } from '../utils/helpers'; // Importa la función capitalizeFirstLetter desde helpers.ts
+import { capitalizeFirstLetter } from '../utils/helpers';
 import TemplateWidget from '../utils/widgets/TemplateWidget';
+import TemplateModal from './Modals/TemplateModal';
+
+const MAX_TEMPLATES = 4;
 
 const Home: React.FC = () => {
-  // Obtener el nombre del usuario desde localStorage
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState<{ id: number; name: string; filePath: string } | null>(null);
+  const [templates, setTemplates] = useState<{ id: number; name: string; filePath: string }[]>([
+    { id: 1, name: 'Plantilla - Laboratorio', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
+    { id: 2, name: 'Plantilla - Laboratorio', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
+  ]);
+
   const userName = localStorage.getItem('userName') || '';
+
+  const openModal = (template: { id: number; name: string; filePath: string }) => {
+    setSelectedTemplate(template);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedTemplate(null);
+  };
+
+  const handleRemoveTemplate = (id: number) => {
+    const updatedTemplates = templates.filter(template => template.id !== id);
+    setTemplates(updatedTemplates);
+  };
 
   return (
     <div className="home-container">
@@ -15,7 +39,7 @@ const Home: React.FC = () => {
         </div>
         <div className="profile">
           <img src="/profile-icon.png" alt="Profile Icon" className="profile-icon" />
-          <span>{capitalizeFirstLetter(userName)}</span> {/* Mostrar el nombre del usuario */}
+          <span>{capitalizeFirstLetter(userName)}</span>
         </div>
       </div>
       <div className="home-main">
@@ -29,16 +53,24 @@ const Home: React.FC = () => {
         <div className="recommendations">
           <h3>Te puede interesar:</h3>
           <div className="templates">
-            <TemplateWidget imageSrc="/template-icon.png" />
-            <TemplateWidget imageSrc="/template-icon.png" />
-            <TemplateWidget imageSrc="/template-icon.png" />
-            <TemplateWidget imageSrc="/template-icon.png" />
+            {templates.map((template) => (
+              <TemplateWidget
+                key={template.id}
+                templateName={template.name} // Pasa el nombre de la plantilla
+                onClick={() => openModal(template)}
+                onRemove={() => handleRemoveTemplate(template.id)}
+              />
+            ))}
           </div>
         </div>
       </div>
+      <TemplateModal
+        visible={modalVisible}
+        onClose={closeModal}
+        template={selectedTemplate}
+      />
     </div>
   );
 };
 
 export default Home;
-

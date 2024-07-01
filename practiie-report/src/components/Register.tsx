@@ -5,6 +5,7 @@ import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { registerUser } from '../services/authService';
 import Alert from '../utils/alerts';
+import Loader from '../utils/Loader'; // Importa el componente Loader
 import './Register.css';
 import { AlertTitle } from '@mui/material';
 
@@ -22,6 +23,7 @@ const Register: React.FC = () => {
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('success');
+    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
     const validateEmail = (email: string) => {
@@ -56,6 +58,7 @@ const Register: React.FC = () => {
             return;
         }
 
+        setLoading(true); // Muestra el loader
         try {
             const user = { name, lastname, email, password };
             await registerUser(user);
@@ -71,6 +74,8 @@ const Register: React.FC = () => {
             setAlertSeverity('error');
             setAlertMessage('Error al registrar usuario');
             setShowAlert(true);
+        } finally {
+            setLoading(false); // Oculta el loader
         }
     };
 
@@ -105,7 +110,11 @@ const Register: React.FC = () => {
                             <Password id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={confirmPasswordError ? 'error-input' : ''} placeholder="Confirm password" feedback={false} />
                             {confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}
                         </div>
-                        <Button type="submit" label="Regístrate" />
+                        <Button type="submit" disabled={loading}>
+                            <div className="button-content">
+                                {loading ? <Loader /> : "Regístrate"}
+                            </div>
+                        </Button>
                     </form>
                 </div>
                 <div className="register-right">
