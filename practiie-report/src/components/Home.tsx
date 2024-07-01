@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Home.css';
 import { capitalizeFirstLetter } from '../utils/helpers';
 import TemplateWidget from '../utils/widgets/TemplateWidget';
-import TemplateModal from './TemplateModal';
+import TemplateModal from './Modals/TemplateModal';
 
 const MAX_TEMPLATES = 4;
 
@@ -10,8 +10,8 @@ const Home: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTemplate, setSelectedTemplate] = useState<{ id: number; name: string; filePath: string } | null>(null);
   const [templates, setTemplates] = useState<{ id: number; name: string; filePath: string }[]>([
-    { id: 1, name: 'Plantilla 1', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
-    { id: 2, name: 'Plantilla 2', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
+    { id: 1, name: 'Plantilla - Laboratorio', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
+    { id: 2, name: 'Plantilla - Laboratorio', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
   ]);
 
   const userName = localStorage.getItem('userName') || '';
@@ -56,7 +56,7 @@ const Home: React.FC = () => {
             {templates.map((template) => (
               <TemplateWidget
                 key={template.id}
-                imageSrc={template.filePath} // Usa la propiedad filePath para la imagen o icono
+                templateName={template.name} // Pasa el nombre de la plantilla
                 onClick={() => openModal(template)}
                 onRemove={() => handleRemoveTemplate(template.id)}
               />

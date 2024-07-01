@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
-import { Alert, AlertTitle } from '@mui/material'; // Importa Alert y AlertTitle de MUI
+import { Alert, AlertTitle } from '@mui/material';
+import Loader from '../utils/Loader'; // Importa el componente Loader
 import './Login.css';
 
 interface LoginProps {
-    handleLogin: (email: string, password: string) => Promise<{ error?: string, name?: string }>; // Agrega name al tipo de retorno
+    handleLogin: (email: string, password: string) => Promise<{ error?: string, name?: string }>;
 }
 
 const Login: React.FC<LoginProps> = ({ handleLogin }) => {
@@ -16,6 +17,7 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('success');
+    const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     
     const validateEmail = (email: string) => {
@@ -32,12 +34,15 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
             return;
         }
 
+        setLoading(true); // Muestra el loader
         const result = await handleLogin(email, password);
+        setLoading(false); // Oculta el loader
+
         if (result.error) {
             setAlertSeverity('error');
             setAlertMessage(result.error);
             setShowAlert(true);
-        } else if (result.name) { // Almacena el nombre en localStorage
+        } else if (result.name) {
             localStorage.setItem('userName', result.name);
             navigate('/home');
         }
@@ -70,7 +75,11 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
                                 {alertMessage}
                             </Alert>
                         )}
-                        <Button type="submit" label="Iniciar sesión"/>
+                        <Button type="submit" disabled={loading}>
+                            <div className="button-content">
+                                {loading ? <Loader /> : "Iniciar sesión"}
+                            </div>
+                        </Button>
                     </form>
                     <div className="login-footer">
                         <p>No tienes una cuenta?</p>
@@ -83,4 +92,3 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
 };
 
 export default Login;
-

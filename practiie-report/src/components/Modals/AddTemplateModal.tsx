@@ -10,6 +10,8 @@ interface AddTemplateModalProps {
 const AddTemplateModal: React.FC<AddTemplateModalProps> = ({ visible, onHide, onAdd }) => {
   const [templateName, setTemplateName] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 3; // Define el número total de páginas, ajusta esto según sea necesario
 
   const handleAdd = () => {
     if (templateName && selectedFile) {
@@ -28,6 +30,18 @@ const AddTemplateModal: React.FC<AddTemplateModalProps> = ({ visible, onHide, on
     }
   };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   if (!visible) return null;
 
   return (
@@ -43,14 +57,26 @@ const AddTemplateModal: React.FC<AddTemplateModalProps> = ({ visible, onHide, on
         />
         <input
           type="file"
-          accept=".docx"
+          accept=".pdf"
           onChange={handleFileChange}
         />
         <button className="add-button" onClick={handleAdd}>Agregar</button>
+        <div className="document-preview">
+          <iframe
+            src={`/Plantilla_Laboraotorio/informe.html`}
+            width="100%"
+            height="600px"
+            title="Vista previa del documento"
+            style={{ border: 'none' }}
+          ></iframe>
+          <div className="document-preview-controls">
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>Anterior</button>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>Siguiente</button>
+          </div>
+        </div>
       </div>
     </div>
   );
 };
 
 export default AddTemplateModal;
-
