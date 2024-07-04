@@ -1,3 +1,5 @@
+/* CreateReport.css */
+
 body {
     margin: 0;
     padding: 0;
@@ -9,6 +11,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px;
     height: 100vh;
 }
 
@@ -17,26 +20,58 @@ body {
     padding: 20px;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 70%;
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.close-button {
+    width: 40px;
+  height: 40px;
+  background-color: #122533;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
     text-align: center;
     color: #2c3e50;
-    margin-bottom: 40px;
-    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-size: 2em;
+}
+
+.form-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .form-row {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    width: 100%;
     margin-bottom: 20px;
 }
 
 .p-field {
     display: flex;
     flex-direction: column;
-    width: 48%;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 .p-field label {
@@ -50,6 +85,7 @@ h2 {
     border: 1px solid #bdc3c7;
     border-radius: 4px;
     font-size: 1em;
+    width: 100%;
 }
 
 .p-field textarea {
@@ -60,15 +96,77 @@ h2 {
     border: 1px solid red;
 }
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.button-container.centered {
+    justify-content: center;
+}
+
+.nav-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    padding: 8px 16px;
+    font-size: 0.8em;
+    border: none;
+    border-radius: 5px;
+    background-color: #3E9DC2;
+    color: white;
+    cursor: pointer;
+    width: 45%;
+}
+
+.nav-button:hover {
+    background-color: #3498db;
+}
+
 .submit-button {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 5px;
+    padding: 8px 16px;
+    font-size: 0.8em;
+    border: none;
+    border-radius: 5px;
+    background-color: #122533;
+    color: white;
+    cursor: pointer;
     width: 100%;
+}
+
+.submit-button:hover {
+    background-color: #0e1d2b;
 }
 
 .error-message {
     color: red;
     font-size: 0.8em;
     margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+    .create-report-content {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-button, .submit-button {
+        width: 100%;
+    }
 }

@@ -7,35 +7,31 @@ import { Dialog } from 'primereact/dialog';
 import Loader from '../utils/Loader';
 import './CreateReport.css';
 
-const CreateReportForm: React.FC = () => {
+const CreateResearchReportForm: React.FC = () => {
     const [formData, setFormData] = useState({
-        school: '',
-        date: '',
-        course: '',
-        subject: '',
-        student: '',
-        title: '',
-        objective: '',
-        materials: '',
-        procedure: '',
-        dataResults: '',
-        analysis: '',
-        conclusions: '',
+        researchTitle: '',
+        researchDate: '',
+        researcher: '',
+        advisor: '',
+        abstract: '',
+        introduction: '',
+        methodology: '',
+        results: '',
+        discussion: '',
+        conclusion: '',
         references: ''
     });
     const [errors, setErrors] = useState({
-        school: '',
-        date: '',
-        course: '',
-        subject: '',
-        student: '',
-        title: '',
-        objective: '',
-        materials: '',
-        procedure: '',
-        dataResults: '',
-        analysis: '',
-        conclusions: '',
+        researchTitle: '',
+        researchDate: '',
+        researcher: '',
+        advisor: '',
+        abstract: '',
+        introduction: '',
+        methodology: '',
+        results: '',
+        discussion: '',
+        conclusion: '',
         references: ''
     });
     const [visible, setVisible] = useState(false);
@@ -71,7 +67,7 @@ const CreateReportForm: React.FC = () => {
         if (validateForm()) {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:3000/report/create', {
+                const response = await fetch('http://localhost:3000/report/create-research', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -84,7 +80,7 @@ const CreateReportForm: React.FC = () => {
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'reporte.pdf';
+                    a.download = 'reporte-investigacion.pdf';
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -129,56 +125,56 @@ const CreateReportForm: React.FC = () => {
                 <div className="header">
                     <button className="close-button" onClick={handleGoHome}>X</button>
                 </div>
-                <h2>Crear Reporte</h2>
+                <h2>Crear Reporte de Investigación</h2>
                 <form onSubmit={handleSubmit}>
                     {step === 1 && (
                         <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="school">Institución</label>
+                                    <label htmlFor="researchTitle">Título de Investigación</label>
                                     <InputText
-                                        id="school"
-                                        name="school"
-                                        value={formData.school}
+                                        id="researchTitle"
+                                        name="researchTitle"
+                                        value={formData.researchTitle}
                                         onChange={handleChange}
-                                        className={errors.school ? 'error-input' : ''}
+                                        className={errors.researchTitle ? 'error-input' : ''}
                                     />
-                                    {errors.school && <div className="error-message">{errors.school}</div>}
+                                    {errors.researchTitle && <div className="error-message">{errors.researchTitle}</div>}
                                 </div>
                                 <div className="p-field">
-                                    <label htmlFor="date">Fecha</label>
+                                    <label htmlFor="researchDate">Fecha de Investigación</label>
                                     <InputText
-                                        id="date"
-                                        name="date"
-                                        value={formData.date}
+                                        id="researchDate"
+                                        name="researchDate"
+                                        value={formData.researchDate}
                                         onChange={handleChange}
-                                        className={errors.date ? 'error-input' : ''}
+                                        className={errors.researchDate ? 'error-input' : ''}
                                     />
-                                    {errors.date && <div className="error-message">{errors.date}</div>}
+                                    {errors.researchDate && <div className="error-message">{errors.researchDate}</div>}
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="course">Curso</label>
+                                    <label htmlFor="researcher">Investigador</label>
                                     <InputText
-                                        id="course"
-                                        name="course"
-                                        value={formData.course}
+                                        id="researcher"
+                                        name="researcher"
+                                        value={formData.researcher}
                                         onChange={handleChange}
-                                        className={errors.course ? 'error-input' : ''}
+                                        className={errors.researcher ? 'error-input' : ''}
                                     />
-                                    {errors.course && <div className="error-message">{errors.course}</div>}
+                                    {errors.researcher && <div className="error-message">{errors.researcher}</div>}
                                 </div>
                                 <div className="p-field">
-                                    <label htmlFor="subject">Asignatura</label>
+                                    <label htmlFor="advisor">Asesor</label>
                                     <InputText
-                                        id="subject"
-                                        name="subject"
-                                        value={formData.subject}
+                                        id="advisor"
+                                        name="advisor"
+                                        value={formData.advisor}
                                         onChange={handleChange}
-                                        className={errors.subject ? 'error-input' : ''}
+                                        className={errors.advisor ? 'error-input' : ''}
                                     />
-                                    {errors.subject && <div className="error-message">{errors.subject}</div>}
+                                    {errors.advisor && <div className="error-message">{errors.advisor}</div>}
                                 </div>
                             </div>
                             <div className="button-container centered">
@@ -191,50 +187,32 @@ const CreateReportForm: React.FC = () => {
                         <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="student">Alumno</label>
-                                    <InputText
-                                        id="student"
-                                        name="student"
-                                        value={formData.student}
+                                    <label htmlFor="abstract">Resumen</label>
+                                    <InputTextarea
+                                        id="abstract"
+                                        name="abstract"
+                                        value={formData.abstract}
                                         onChange={handleChange}
-                                        className={errors.student ? 'error-input' : ''}
+                                        className={errors.abstract ? 'error-input' : ''}
+                                        onClick={() => openDialog('abstract')}
+                                        autoResize={false}
                                     />
-                                    {errors.student && <div className="error-message">{errors.student}</div>}
-                                </div>
-                                <div className="p-field">
-                                    <label htmlFor="title">Título</label>
-                                    <InputText
-                                        id="title"
-                                        name="title"
-                                        value={formData.title}
-                                        onChange={handleChange}
-                                        className={errors.title ? 'error-input' : ''}
-                                    />
-                                    {errors.title && <div className="error-message">{errors.title}</div>}
+                                    {errors.abstract && <div className="error-message">{errors.abstract}</div>}
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="objective">Objetivo</label>
-                                    <InputText
-                                        id="objective"
-                                        name="objective"
-                                        value={formData.objective}
+                                    <label htmlFor="introduction">Introducción</label>
+                                    <InputTextarea
+                                        id="introduction"
+                                        name="introduction"
+                                        value={formData.introduction}
                                         onChange={handleChange}
-                                        className={errors.objective ? 'error-input' : ''}
+                                        className={errors.introduction ? 'error-input' : ''}
+                                        onClick={() => openDialog('introduction')}
+                                        autoResize={false}
                                     />
-                                    {errors.objective && <div className="error-message">{errors.objective}</div>}
-                                </div>
-                                <div className="p-field">
-                                    <label htmlFor="materials">Materiales</label>
-                                    <InputText
-                                        id="materials"
-                                        name="materials"
-                                        value={formData.materials}
-                                        onChange={handleChange}
-                                        className={errors.materials ? 'error-input' : ''}
-                                    />
-                                    {errors.materials && <div className="error-message">{errors.materials}</div>}
+                                    {errors.introduction && <div className="error-message">{errors.introduction}</div>}
                                 </div>
                             </div>
                             <div className="button-container">
@@ -248,32 +226,32 @@ const CreateReportForm: React.FC = () => {
                         <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="procedure">Procedimiento</label>
+                                    <label htmlFor="methodology">Metodología</label>
                                     <InputTextarea
-                                        id="procedure"
-                                        name="procedure"
-                                        value={formData.procedure}
+                                        id="methodology"
+                                        name="methodology"
+                                        value={formData.methodology}
                                         onChange={handleChange}
-                                        className={errors.procedure ? 'error-input' : ''}
-                                        onClick={() => openDialog('procedure')}
+                                        className={errors.methodology ? 'error-input' : ''}
+                                        onClick={() => openDialog('methodology')}
                                         autoResize={false}
                                     />
-                                    {errors.procedure && <div className="error-message">{errors.procedure}</div>}
+                                    {errors.methodology && <div className="error-message">{errors.methodology}</div>}
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="dataResults">Cálculos</label>
+                                    <label htmlFor="results">Resultados</label>
                                     <InputTextarea
-                                        id="dataResults"
-                                        name="dataResults"
-                                        value={formData.dataResults}
+                                        id="results"
+                                        name="results"
+                                        value={formData.results}
                                         onChange={handleChange}
-                                        className={errors.dataResults ? 'error-input' : ''}
-                                        onClick={() => openDialog('dataResults')}
+                                        className={errors.results ? 'error-input' : ''}
+                                        onClick={() => openDialog('results')}
                                         autoResize={false}
                                     />
-                                    {errors.dataResults && <div className="error-message">{errors.dataResults}</div>}
+                                    {errors.results && <div className="error-message">{errors.results}</div>}
                                 </div>
                             </div>
                             <div className="button-container">
@@ -287,32 +265,47 @@ const CreateReportForm: React.FC = () => {
                         <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="analysis">Análisis</label>
+                                    <label htmlFor="discussion">Discusión</label>
                                     <InputTextarea
-                                        id="analysis"
-                                        name="analysis"
-                                        value={formData.analysis}
+                                        id="discussion"
+                                        name="discussion"
+                                        value={formData.discussion}
                                         onChange={handleChange}
-                                        className={errors.analysis ? 'error-input' : ''}
-                                        onClick={() => openDialog('analysis')}
+                                        className={errors.discussion ? 'error-input' : ''}
+                                        onClick={() => openDialog('discussion')}
                                         autoResize={false}
                                     />
-                                    {errors.analysis && <div className="error-message">{errors.analysis}</div>}
+                                    {errors.discussion && <div className="error-message">{errors.discussion}</div>}
                                 </div>
                             </div>
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="conclusions">Conclusiones</label>
+                                    <label htmlFor="conclusion">Conclusión</label>
                                     <InputTextarea
-                                        id="conclusions"
-                                        name="conclusions"
-                                        value={formData.conclusions}
+                                        id="conclusion"
+                                        name="conclusion"
+                                        value={formData.conclusion}
                                         onChange={handleChange}
-                                        className={errors.conclusions ? 'error-input' : ''}
-                                        onClick={() => openDialog('conclusions')}
+                                        className={errors.conclusion ? 'error-input' : ''}
+                                        onClick={() => openDialog('conclusion')}
                                         autoResize={false}
                                     />
-                                    {errors.conclusions && <div className="error-message">{errors.conclusions}</div>}
+                                    {errors.conclusion && <div className="error-message">{errors.conclusion}</div>}
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="references">Referencias</label>
+                                    <InputTextarea
+                                        id="references"
+                                        name="references"
+                                        value={formData.references}
+                                        onChange={handleChange}
+                                        className={errors.references ? 'error-input' : ''}
+                                        onClick={() => openDialog('references')}
+                                        autoResize={false}
+                                    />
+                                    {errors.references && <div className="error-message">{errors.references}</div>}
                                 </div>
                             </div>
                             <div className="button-container">
@@ -341,4 +334,4 @@ const CreateReportForm: React.FC = () => {
     );
 };
 
-export default CreateReportForm;
+export default CreateResearchReportForm;

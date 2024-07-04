@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './TemplateModal.css';
 
@@ -10,26 +10,36 @@ interface TemplateModalProps {
 
 const TemplateModal: React.FC<TemplateModalProps> = ({ visible, onClose, template }) => {
     const navigate = useNavigate();
-    const [currentPage, setCurrentPage] = useState(1);
-    const totalPages = 3; // Ajusta esto según el número total de páginas HTML que tengas
 
     const handleCreateReport = () => {
-        navigate('/create-report');
-    };
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const handlePrevPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+        if (template) {
+            switch (template.name) {
+                case "Plantilla Laboratorio":
+                    navigate('/create-report-lab');
+                    break;
+                case "Plantilla Investigacion":
+                    navigate('/create-report-research');
+                    break;
+                case "Plantilla Ensayo":
+                    navigate('/create-report-essay');
+                    break;
+                case "Plantilla Practicas-PreProfesionales":
+                    navigate('/create-report-internship');
+                    break;
+                default:
+                    navigate('/home');
+            }
         }
     };
 
     if (!visible || !template) return null;
+
+    const pdfUrls: { [key: string]: string } = {
+        "Plantilla Laboratorio": '/Plantilla_Laboraotorio/Plantilla-Laboratorio.pdf',
+        "Plantilla Investigacion": '/Plantilla_Investigacion/Plantilla-Investigacion.pdf',
+        "Plantilla Ensayo": '/Plantilla_Ensayo/Plantilla Ensayo.pdf',
+        "Plantilla Practicas-PreProfesionales": '/Plantilla_Practicas-PreProfesionales/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf'
+    };
 
     return (
         <div className="modal-overlay">
@@ -37,20 +47,16 @@ const TemplateModal: React.FC<TemplateModalProps> = ({ visible, onClose, templat
                 <div className="left-section">
                     <div className="iframe-container">
                         <iframe
-                            src={`/Plantilla_Laboraotorio/informe-${currentPage}.html`}
+                            src={`${pdfUrls[template.name]}#toolbar=0`}
                             title="Vista previa del documento"
                             width="100%"
                             height="100%"
                             style={{ border: 'none' }}
                         ></iframe>
                     </div>
-                    <div className="navigation-buttons">
-                        <button onClick={handlePrevPage} disabled={currentPage === 1}>Anterior</button>
-                        <button onClick={handleNextPage} disabled={currentPage === totalPages}>Siguiente</button>
-                    </div>
                 </div>
                 <div className="right-section">
-                    <h2>Plantilla Laboratorios</h2>
+                    <h2>{template.name}</h2>
                     <div className="button-container">
                         <button className="create-report-button" onClick={handleCreateReport}>Crear Reporte</button>
                         <button className="close-modal-button" onClick={onClose}>X</button>

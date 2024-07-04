@@ -42,13 +42,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-right: 11%;
 }
 
-.navigation-buttons {
+.no-preview {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
   width: 100%;
-  margin-top: 10px;
+  font-size: 1.5rem;
+  color: #666;
+  text-align: center;
 }
 
 .right-section {
@@ -57,6 +62,7 @@
   align-items: center;
   justify-content: center;
   width: 25%;
+  padding-right: 5%;
 }
 
 .right-section h2 {

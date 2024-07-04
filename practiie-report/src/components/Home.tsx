@@ -3,74 +3,77 @@ import './Home.css';
 import { capitalizeFirstLetter } from '../utils/helpers';
 import TemplateWidget from '../utils/widgets/TemplateWidget';
 import TemplateModal from './Modals/TemplateModal';
-
-const MAX_TEMPLATES = 4;
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedTemplate, setSelectedTemplate] = useState<{ id: number; name: string; filePath: string } | null>(null);
-  const [templates, setTemplates] = useState<{ id: number; name: string; filePath: string }[]>([
-    { id: 1, name: 'Plantilla - Laboratorio', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
-    { id: 2, name: 'Plantilla - Laboratorio', filePath: '/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
-  ]);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedTemplate, setSelectedTemplate] = useState<{ id: number; name: string; filePath: string } | null>(null);
+    const [templates] = useState<{ id: number; name: string; filePath: string }[]>([
+        { id: 1, name: 'Plantilla Laboratorio', filePath: '/Plantilla_Laboraotorio/Plantilla-Laboratorio.pdf' },
+        { id: 2, name: 'Plantilla Practicas-PreProfesionales', filePath: '/Plantilla_Practicas-PreProfesionales/INFORMES DE PRACTICAS PRE-PROFESIONALES.pdf' },
+        { id: 3, name: 'Plantilla Investigacion', filePath: '/Plantilla_Investigacion/Plantilla-Investigacion.pdf' },
+        { id: 4, name: 'Plantilla Ensayo', filePath: '/Plantilla_Ensayo/Plantilla Ensayo.pdf' }
+    ]);
 
-  const userName = localStorage.getItem('userName') || '';
+    const userName = localStorage.getItem('userName') || '';
+    const navigate = useNavigate();
 
-  const openModal = (template: { id: number; name: string; filePath: string }) => {
-    setSelectedTemplate(template);
-    setModalVisible(true);
-  };
+    const openModal = (template: { id: number; name: string; filePath: string }) => {
+        setSelectedTemplate(template);
+        setModalVisible(true);
+    };
 
-  const closeModal = () => {
-    setModalVisible(false);
-    setSelectedTemplate(null);
-  };
+    const closeModal = () => {
+        setModalVisible(false);
+        setSelectedTemplate(null);
+    };
 
-  const handleRemoveTemplate = (id: number) => {
-    const updatedTemplates = templates.filter(template => template.id !== id);
-    setTemplates(updatedTemplates);
-  };
+    const handleCreateReport = () => {
+        if (selectedTemplate?.id === 1) {
+            navigate('/create-report-lab');
+        } else if (selectedTemplate?.id === 2) {
+            navigate('/create-report-preprofessional');
+        } else if (selectedTemplate?.id === 3) {
+            navigate('/create-report-research');
+        } else if (selectedTemplate?.id === 4) {
+            navigate('/create-report-essay');
+        }
+        closeModal();
+    };
 
-  return (
-    <div className="home-container">
-      <div className="home-header">
-        <div className="home-welcome">
-          <h1>Bienvenido a Pract<span>ii</span>eReport</h1>
+    return (
+        <div className="home-container">
+            <div className="home-header">
+                <div className="home-welcome">
+                    <h1>Bienvenido a Pract<span>ii</span>eReport</h1>
+                </div>
+                <div className="profile">
+                    <img src="/profile-icon.png" alt="Profile Icon" className="profile-icon" />
+                    <span>{capitalizeFirstLetter(userName)}</span>
+                </div>
+            </div>
+            <div className="home-main">
+                <div className="recommendations">
+                    <h3>Nuestras Plantillas 🐧📄</h3>
+                    <div className="templates">
+                        {templates.map((template) => (
+                            <TemplateWidget
+                                key={template.id}
+                                templateName={template.name}
+                                onClick={() => openModal(template)}
+                            />
+                        ))}
+                    </div>
+                    <p className="new-templates-info">¡Pronto nuevas plantillas para ti ✅📄!</p>
+                </div>
+            </div>
+            <TemplateModal
+                visible={modalVisible}
+                onClose={closeModal}
+                template={selectedTemplate}
+            />
         </div>
-        <div className="profile">
-          <img src="/profile-icon.png" alt="Profile Icon" className="profile-icon" />
-          <span>{capitalizeFirstLetter(userName)}</span>
-        </div>
-      </div>
-      <div className="home-main">
-        <div className="search-section">
-          <h2>Qué plantilla buscas hoy?</h2>
-          <div className="search-bar">
-            <i className="pi pi-search search-icon"></i>
-            <input type="text" placeholder="Busca tu plantilla deseada" />
-          </div>
-        </div>
-        <div className="recommendations">
-          <h3>Te puede interesar:</h3>
-          <div className="templates">
-            {templates.map((template) => (
-              <TemplateWidget
-                key={template.id}
-                templateName={template.name} // Pasa el nombre de la plantilla
-                onClick={() => openModal(template)}
-                onRemove={() => handleRemoveTemplate(template.id)}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-      <TemplateModal
-        visible={modalVisible}
-        onClose={closeModal}
-        template={selectedTemplate}
-      />
-    </div>
-  );
+    );
 };
 
 export default Home;
