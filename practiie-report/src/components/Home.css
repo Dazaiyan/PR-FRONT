@@ -80,6 +80,7 @@ body {
 .recommendations h3 {
   font-size: 38px
 }
+
 .templates {
   display: flex;
   justify-content: center;
@@ -92,6 +93,35 @@ body {
   font-size: 1rem;
   color: #2c3e50;
   text-align: center;
+}
+
+.search-section {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px 0 20px;
+  padding-left: 2%;
+}
+
+.search-section .search-icon {
+  font-size: 20px;
+  margin-right: 10px;
+  color: #666;
+}
+
+.search-section input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.no-templates-message {
+  font-size: 1.2rem;
+  color: #e74c3c;
+  margin-top: 20px;
 }
 
 /* Media Queries para hacer la página más responsiva */

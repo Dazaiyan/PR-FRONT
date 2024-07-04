@@ -14,6 +14,7 @@ const Home: React.FC = () => {
         { id: 3, name: 'Plantilla Investigacion', filePath: '/Plantilla_Investigacion/Plantilla-Investigacion.pdf' },
         { id: 4, name: 'Plantilla Ensayo', filePath: '/Plantilla_Ensayo/Plantilla Ensayo.pdf' }
     ]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const userName = localStorage.getItem('userName') || '';
     const navigate = useNavigate();
@@ -41,6 +42,10 @@ const Home: React.FC = () => {
         closeModal();
     };
 
+    const filteredTemplates = templates.filter(template =>
+        template.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div className="home-container">
             <div className="home-header">
@@ -55,14 +60,27 @@ const Home: React.FC = () => {
             <div className="home-main">
                 <div className="recommendations">
                     <h3>Nuestras Plantillas 🐧📄</h3>
+                    <div className="search-section">
+                        <i className="pi pi-search search-icon"></i>
+                        <input
+                            type="text"
+                            placeholder="Buscar plantilla..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
                     <div className="templates">
-                        {templates.map((template) => (
-                            <TemplateWidget
-                                key={template.id}
-                                templateName={template.name}
-                                onClick={() => openModal(template)}
-                            />
-                        ))}
+                        {filteredTemplates.length > 0 ? (
+                            filteredTemplates.map((template) => (
+                                <TemplateWidget
+                                    key={template.id}
+                                    templateName={template.name}
+                                    onClick={() => openModal(template)}
+                                />
+                            ))
+                        ) : (
+                            <p className="no-templates-message">No se encontraron plantillas que coincidan con tu búsqueda.</p>
+                        )}
                     </div>
                     <p className="new-templates-info">¡Pronto nuevas plantillas para ti ✅📄!</p>
                 </div>
