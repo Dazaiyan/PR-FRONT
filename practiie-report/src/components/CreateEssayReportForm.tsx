@@ -7,6 +7,7 @@ import { Dialog } from 'primereact/dialog';
 import Loader from '../utils/Loader';
 import './CreateReport.css';
 
+
 const CreateEssayReportForm: React.FC = () => {
     const [formData, setFormData] = useState({
         title: '',
