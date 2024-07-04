@@ -47,7 +47,7 @@ const TemplateModal: React.FC<TemplateModalProps> = ({ visible, onClose, templat
                 <div className="left-section">
                     <div className="iframe-container">
                         <iframe
-                            src={`${pdfUrls[template.name]}#toolbar=0`}
+                            src={`${pdfUrls[template.name]}#zoom=98&toolbar=0`}
                             title="Vista previa del documento"
                             width="100%"
                             height="100%"

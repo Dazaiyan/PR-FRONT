@@ -7,6 +7,8 @@ import CreateReportLab from '../components/CreateReport';
 import CreateResearchReportForm from '../components/CreateResearchReportForm';
 import CreateEssayReportForm from '../components/CreateEssayReportForm';
 import CreateInternshipReportForm from '../components/CreateInternshipReportForm';
+import HomeView from '../views/HomeView';
+import SettingsView from '../components/Settings';
 
 const AppRoutes: React.FC = () => {
     return (
@@ -14,11 +16,12 @@ const AppRoutes: React.FC = () => {
             <Routes>
                 <Route path="/login" element={<LoginView />} />
                 <Route path="/register" element={<RegisterView />} />
-                <Route path="/home" element={<Home />} />
+                <Route path="/home" element={<HomeView />} />
                 <Route path="/create-report-lab" element={<CreateReportLab />} />
                 <Route path="/create-report-research" element={<CreateResearchReportForm />} />
                 <Route path="/create-report-essay" element={<CreateEssayReportForm />} />
                 <Route path="/create-report-internship" element={<CreateInternshipReportForm />} />
+                <Route path="/settings" element={<SettingsView />} />
                 <Route path="/" element={<LoginView />} />
             </Routes>
         </Router>

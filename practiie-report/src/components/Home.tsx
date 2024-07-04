@@ -53,7 +53,12 @@ const Home: React.FC = () => {
                     <h1>Bienvenido a Pract<span>ii</span>eReport</h1>
                 </div>
                 <div className="profile">
-                    <img src="/profile-icon.png" alt="Profile Icon" className="profile-icon" />
+                    <img 
+                        src="/profile-icon.png" 
+                        alt="Profile Icon" 
+                        className="profile-icon" 
+                        onClick={() => navigate('/settings')}
+                    />
                     <span>{capitalizeFirstLetter(userName)}</span>
                 </div>
             </div>
