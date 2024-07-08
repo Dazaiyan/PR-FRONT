@@ -5,6 +5,8 @@ const prisma = new PrismaClient();
 
 export const createReport = async (req: Request, res: Response) => {
   try {
+    console.log("Solicitud recibida en el backend con datos:", req.body);
+
     const {
       report_name,
       school,
@@ -41,8 +43,11 @@ export const createReport = async (req: Request, res: Response) => {
       },
     });
 
+    console.log("Reporte creado en la base de datos:", report);
+
     res.status(201).json(report);
   } catch (error) {
+    console.error('Error creating report:', error);
     res.status(500).json({ error: 'Error creating report' });
   }
 };
@@ -52,6 +57,7 @@ export const getReports = async (req: Request, res: Response) => {
     const reports = await prisma.reportLab.findMany();
     res.status(200).json(reports);
   } catch (error) {
+    console.error('Error fetching reports:', error);
     res.status(500).json({ error: 'Error fetching reports' });
   }
 };

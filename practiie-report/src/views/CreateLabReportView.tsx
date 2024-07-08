@@ -1,8 +1,8 @@
 import React from 'react';
-import CreateReportForm from '../components/CreateLabReportFrom';
+import CreateLabReportForm from '../components/CreateLabReportFrom';
 
 const CreateReportView: React.FC = () => {
-    return <CreateReportForm />;
+    return <CreateLabReportForm />;
 };
 
 export default CreateReportView;
