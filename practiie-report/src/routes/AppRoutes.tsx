@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginView from '../views/LoginView';
 import RegisterView from '../views/RegisterView';
 import Home from '../components/Home';
-import CreateReportLab from '../components/CreateReport';
+import CreateReportLab from '../components/CreateLabReportFrom';
 import CreateResearchReportForm from '../components/CreateResearchReportForm';
 import CreateEssayReportForm from '../components/CreateEssayReportForm';
 import CreateInternshipReportForm from '../components/CreateInternshipReportForm';
