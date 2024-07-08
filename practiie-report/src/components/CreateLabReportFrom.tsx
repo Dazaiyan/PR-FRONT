@@ -6,9 +6,12 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import Loader from '../utils/Loader';
 import './CreateReport.css';
+import api from '../services/api';
+import { createReportPDF } from '../services/authService';
 
-const CreateReportForm: React.FC = () => {
+const CreateLabReportForm: React.FC = () => {
     const [formData, setFormData] = useState({
+        report_name: 'Reporte de Laboratorio',
         school: '',
         date: '',
         course: '',
@@ -68,30 +71,22 @@ const CreateReportForm: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log("Formulario enviado");
         if (validateForm()) {
+            console.log("Formulario validado");
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:3000/report/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'reporte.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                    navigate('/home'); // Redirect to home page after successful submission
+                console.log("Datos enviados al servidor:", formData);
+                const response = await api.post('/reports/create', formData);
+                console.log("Respuesta del servidor:", response);
+                if (response.status === 201) {
+                    // Aquí generamos el PDF
+                    console.log("Generando PDF...");
+                    await createReportPDF('reportContent');
+                    console.log("PDF generado");
+                    navigate('/home'); // Redireccionar a la página de inicio después de crear el reporte
                 } else {
-                    console.error('Error generating PDF:', response.statusText);
+                    console.error('Error creating report:', response.statusText);
                 }
             } catch (error) {
                 console.error('Error submitting form:', error);
@@ -130,7 +125,7 @@ const CreateReportForm: React.FC = () => {
                     <button className="close-button" onClick={handleGoHome}>X</button>
                 </div>
                 <h2>Crear Reporte</h2>
-                <form onSubmit={handleSubmit}>
+                <form id="reportContent" onSubmit={handleSubmit}>
                     {step === 1 && (
                         <div className="form-page">
                             <div className="form-row">
@@ -341,4 +336,4 @@ const CreateReportForm: React.FC = () => {
     );
 };
 
-export default CreateReportForm;
+export default CreateLabReportForm;
