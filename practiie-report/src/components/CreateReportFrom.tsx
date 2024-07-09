@@ -5,11 +5,12 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import Loader from '../utils/Loader';
-import { createReport } from '../services/reportService'; // Importar el servicio
+import { createReport } from '../services/reportService';
 import './CreateReport.css';
 
 const CreateReportForm: React.FC = () => {
     const [formData, setFormData] = useState({
+        report_name: '',
         school: '',
         date: '',
         course: '',
@@ -25,6 +26,7 @@ const CreateReportForm: React.FC = () => {
         references: ''
     });
     const [errors, setErrors] = useState({
+        report_name: '',
         school: '',
         date: '',
         course: '',
@@ -116,6 +118,17 @@ const CreateReportForm: React.FC = () => {
                     {step === 1 && (
                         <div className="form-page">
                             <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="report_name">Nombre del Reporte</label>
+                                    <InputText
+                                        id="report_name"
+                                        name="report_name"
+                                        value={formData.report_name}
+                                        onChange={handleChange}
+                                        className={errors.report_name ? 'error-input' : ''}
+                                    />
+                                    {errors.report_name && <div className="error-message">{errors.report_name}</div>}
+                                </div>
                                 <div className="p-field">
                                     <label htmlFor="school">Institución</label>
                                     <InputText
@@ -295,6 +308,21 @@ const CreateReportForm: React.FC = () => {
                                         autoResize={false}
                                     />
                                     {errors.conclusions && <div className="error-message">{errors.conclusions}</div>}
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="references">Referencias</label>
+                                    <InputTextarea
+                                        id="references"
+                                        name="references"
+                                        value={formData.references}
+                                        onChange={handleChange}
+                                        className={errors.references ? 'error-input' : ''}
+                                        onClick={() => openDialog('references')}
+                                        autoResize={false}
+                                    />
+                                    {errors.references && <div className="error-message">{errors.references}</div>}
                                 </div>
                             </div>
                             <div className="button-container">
