@@ -5,6 +5,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import Loader from '../utils/Loader';
+import { createReport } from '../services/reportService'; // Importar el servicio
 import './CreateReport.css';
 
 const CreateReportForm: React.FC = () => {
@@ -71,28 +72,9 @@ const CreateReportForm: React.FC = () => {
         if (validateForm()) {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:3000/reports/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'reporte.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    a.remove();
-                    window.URL.revokeObjectURL(url);
-                    navigate('/home'); // Redirect to home page after successful submission
-                } else {
-                    console.error('Error generating PDF:', response.statusText);
-                }
+                console.log("Form data being sent:", formData); // Añade un log para depuración
+                await createReport(formData); // Usar el servicio
+                navigate('/home'); // Redirect to home page after successful submission
             } catch (error) {
                 console.error('Error submitting form:', error);
             } finally {

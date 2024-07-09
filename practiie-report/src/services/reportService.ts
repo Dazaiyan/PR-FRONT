@@ -1,5 +1,3 @@
-// services/reportService.ts
-
 import api from './api';
 
 export const createReport = async (reportData: any) => {
