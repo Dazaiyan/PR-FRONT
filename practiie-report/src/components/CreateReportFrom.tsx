@@ -74,9 +74,28 @@ const CreateReportForm: React.FC = () => {
         if (validateForm()) {
             setLoading(true);
             try {
-                console.log("Form data being sent:", formData); // Añade un log para depuración
-                await createReport(formData); // Usar el servicio
-                navigate('/home'); // Redirect to home page after successful submission
+                const response = await fetch('http://localhost:3000/reports/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `${formData.report_name}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                    navigate('/home'); // Redirect to home page after successful submission
+                } else {
+                    console.error('Error generating PDF:', response.statusText);
+                }
             } catch (error) {
                 console.error('Error submitting form:', error);
             } finally {
