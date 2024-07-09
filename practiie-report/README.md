@@ -1,46 +1,51 @@
-# Getting Started with Create React App
+# Practiicereport-frontend
+![image](https://github.com/Dazaiyan/PR-FRONT/assets/115562720/694b2882-f8f7-47b2-9339-8d2a7c50bf4b)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es una aplicación web desarrollada con React en el frontend y Express con Postgres en el backend. La aplicación incluye funcionalidades de registro e inicio de sesión para los usuarios.
 
-## Available Scripts
+## Tabla de Contenidos
+- [Requisitos Previos](#requisitos-previos)
+- [Instalacion](#instalacion)
+- [Instalar Dependencias](#instalar-dependencias)
+- [Configuracion](#configuracion)
+- [Ejecutar](#ejecutar)
+- [Uso](#uso)
 
-In the project directory, you can run:
+## Requisitos Previos
+Antes de comenzar, asegúrate de tener los siguientes requisitos previos instalados en tu máquina:
 
-### `npm start`
+- Node.js (v14 o superior)
+- npm (v6 o superior) o yarn (opcional)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Instalacion
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### **Clonar el Repositorio**
+- Primero, clona el repositorio del proyecto:
 
-### `npm test`
+git clone https://github.com/Dazaiyan/PR-FRONT.git
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **Navega a la carpeta del frontend**
+- cd practiie-report
 
-### `npm run build`
+## Instalar Dependencias
+- npm install
+- npm install primereact --save
+- npm install react-router-dom --save
+- npm install @mui/material --save
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Configuracion
+- En el archivo src/services/api.ts asegúrate de que la URL base del API esté configurada correctamente:
+![image](https://github.com/Dazaiyan/PR-FRONT/assets/115562720/c766e73a-cb8b-46da-bfba-fd9a03ed8568)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Ejecutar 
+- npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Uso
+### **Registro de Usuarios**
+- Accede a la ruta /register para registrarte como un nuevo usuario.
+- Completa el formulario de registro y envíalo.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### **Inicio de Sesión**
+- Accede a la ruta /login para iniciar sesión.
+- Completa el formulario de inicio de sesión y envíalo.
+- Si las credenciales son correctas, serás redirigido a la página de inicio (/home).
