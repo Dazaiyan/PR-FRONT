@@ -9,3 +9,13 @@ export const createReport = async (reportData: any) => {
         throw error;
     }
 };
+
+export const createInternshipReport = async (reportData: any) => {
+    try {
+        const response = await api.post('/internship/create', reportData);
+        return response;
+    } catch (error) {
+        console.error('Error creating internship report:', error);
+        throw error;
+    }
+};
