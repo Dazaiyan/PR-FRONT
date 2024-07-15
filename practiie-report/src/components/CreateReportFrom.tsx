@@ -4,6 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { Calendar } from 'primereact/calendar';
 import Loader from '../utils/Loader';
 import { createReport } from '../services/reportService';
 import './CreateReport.css';
@@ -12,7 +13,7 @@ const CreateReportForm: React.FC = () => {
     const [formData, setFormData] = useState({
         report_name: '',
         school: '',
-        date: '',
+        date: null,
         course: '',
         subject: '',
         student: '',
@@ -48,7 +49,7 @@ const CreateReportForm: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | any) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -161,12 +162,14 @@ const CreateReportForm: React.FC = () => {
                                 </div>
                                 <div className="p-field">
                                     <label htmlFor="date">Fecha</label>
-                                    <InputText
+                                    <Calendar
                                         id="date"
                                         name="date"
                                         value={formData.date}
                                         onChange={handleChange}
                                         className={errors.date ? 'error-input' : ''}
+                                        dateFormat="yy-mm-dd"
+                                        showIcon
                                     />
                                     {errors.date && <div className="error-message">{errors.date}</div>}
                                 </div>
@@ -266,7 +269,7 @@ const CreateReportForm: React.FC = () => {
                                     <InputTextarea
                                         id="procedure"
                                         name="procedure"
-                                        value={formData.procedure}
+                                        value={formData.procedure || ''}
                                         onChange={handleChange}
                                         className={errors.procedure ? 'error-input' : ''}
                                         onClick={() => openDialog('procedure')}
@@ -281,7 +284,7 @@ const CreateReportForm: React.FC = () => {
                                     <InputTextarea
                                         id="dataResults"
                                         name="dataResults"
-                                        value={formData.dataResults}
+                                        value={formData.dataResults || ''}
                                         onChange={handleChange}
                                         className={errors.dataResults ? 'error-input' : ''}
                                         onClick={() => openDialog('dataResults')}
@@ -305,7 +308,7 @@ const CreateReportForm: React.FC = () => {
                                     <InputTextarea
                                         id="analysis"
                                         name="analysis"
-                                        value={formData.analysis}
+                                        value={formData.analysis || ''}
                                         onChange={handleChange}
                                         className={errors.analysis ? 'error-input' : ''}
                                         onClick={() => openDialog('analysis')}
@@ -320,7 +323,7 @@ const CreateReportForm: React.FC = () => {
                                     <InputTextarea
                                         id="conclusions"
                                         name="conclusions"
-                                        value={formData.conclusions}
+                                        value={formData.conclusions || ''}
                                         onChange={handleChange}
                                         className={errors.conclusions ? 'error-input' : ''}
                                         onClick={() => openDialog('conclusions')}
@@ -335,7 +338,7 @@ const CreateReportForm: React.FC = () => {
                                     <InputTextarea
                                         id="references"
                                         name="references"
-                                        value={formData.references}
+                                        value={formData.references || ''}
                                         onChange={handleChange}
                                         className={errors.references ? 'error-input' : ''}
                                         onClick={() => openDialog('references')}
@@ -359,7 +362,7 @@ const CreateReportForm: React.FC = () => {
                 <InputTextarea
                     id={activeField || ''}
                     name={activeField || ''}
-                    value={activeField ? formData[activeField as keyof typeof formData] : ''}
+                    value={activeField ? formData[activeField as keyof typeof formData] || '' : ''}
                     onChange={handleChange}
                     rows={10}
                     cols={50}

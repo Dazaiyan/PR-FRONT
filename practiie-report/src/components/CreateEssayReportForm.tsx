@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar'; // Importar el Calendar para el datepicker
 import Loader from '../utils/Loader';
 import './CreateReport.css';
 
@@ -12,13 +13,15 @@ const CreateEssayReportForm: React.FC = () => {
         author: '',
         course: '',
         instructor: '',
-        dueDate: '',
+        dueDate: null as Date | null, // Inicializar como null o Date
         abstract: '',
         introduction: '',
         body: '',
         conclusion: '',
         references: ''
     });
+    
+    
 
     const [errors, setErrors] = useState({
         title: '',
@@ -33,6 +36,7 @@ const CreateEssayReportForm: React.FC = () => {
         references: ''
     });
 
+    const [activePage, setActivePage] = useState(0); // Estado para la página activa
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -43,6 +47,15 @@ const CreateEssayReportForm: React.FC = () => {
             [name]: value
         });
     };
+
+    const handleDateChange = (e: { value: Date | Date[] }) => {
+        setFormData({
+            ...formData,
+            dueDate: e.value instanceof Date ? e.value : e.value[0] // Manejar Date o Date[]
+        });
+    };
+    
+    
 
     const validateForm = () => {
         const newErrors: any = {};
@@ -55,6 +68,16 @@ const CreateEssayReportForm: React.FC = () => {
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
+    };
+
+    const handleNext = () => {
+        if (validateForm()) {
+            setActivePage(activePage + 1);
+        }
+    };
+
+    const handlePrevious = () => {
+        setActivePage(activePage - 1);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -80,26 +103,22 @@ const CreateEssayReportForm: React.FC = () => {
                     a.click();
                     a.remove();
                     window.URL.revokeObjectURL(url);
-                    navigate('/home'); // Redirect to home page after successful submission
+                    navigate('/home'); // Redirigir a la página de inicio después de la presentación exitosa
                 } else {
-                    console.error('Error generating PDF:', response.statusText);
+                    console.error('Error generando PDF:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error submitting form:', error);
+                console.error('Error enviando formulario:', error);
             } finally {
                 setLoading(false);
             }
         }
     };
 
-    return (
-        <div className="create-report-container">
-            <div className="create-report-content">
-                <div className="header">
-                    <button className="close-button" onClick={() => navigate('/home')}>X</button>
-                </div>
-                <h2>Crear Reporte de Ensayo</h2>
-                <form onSubmit={handleSubmit}>
+    const renderFormPage = () => {
+        switch (activePage) {
+            case 0:
+                return (
                     <div className="form-page">
                         <div className="form-row">
                             <div className="p-field">
@@ -150,16 +169,25 @@ const CreateEssayReportForm: React.FC = () => {
                             </div>
                             <div className="p-field">
                                 <label htmlFor="dueDate">Fecha de Entrega</label>
-                                <InputText
+                                <Calendar
                                     id="dueDate"
                                     name="dueDate"
                                     value={formData.dueDate}
-                                    onChange={handleChange}
                                     className={errors.dueDate ? 'error-input' : ''}
+                                    dateFormat="dd/mm/yy"
+                                    showIcon
                                 />
                                 {errors.dueDate && <div className="error-message">{errors.dueDate}</div>}
                             </div>
                         </div>
+                        <div className="button-container centered">
+                            <Button label="Siguiente" onClick={handleNext} />
+                        </div>
+                    </div>
+                );
+            case 1:
+                return (
+                    <div className="form-page">
                         <div className="form-row">
                             <div className="p-field">
                                 <label htmlFor="abstract">Resumen</label>
@@ -174,6 +202,15 @@ const CreateEssayReportForm: React.FC = () => {
                                 {errors.abstract && <div className="error-message">{errors.abstract}</div>}
                             </div>
                         </div>
+                        <div className="button-container">
+                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
+                            <Button label="Siguiente" onClick={handleNext} />
+                        </div>
+                    </div>
+                );
+            case 2:
+                return (
+                    <div className="form-page">
                         <div className="form-row">
                             <div className="p-field">
                                 <label htmlFor="introduction">Introducción</label>
@@ -188,6 +225,15 @@ const CreateEssayReportForm: React.FC = () => {
                                 {errors.introduction && <div className="error-message">{errors.introduction}</div>}
                             </div>
                         </div>
+                        <div className="button-container">
+                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
+                            <Button label="Siguiente" onClick={handleNext} />
+                        </div>
+                    </div>
+                );
+            case 3:
+                return (
+                    <div className="form-page">
                         <div className="form-row">
                             <div className="p-field">
                                 <label htmlFor="body">Desarrollo</label>
@@ -202,6 +248,15 @@ const CreateEssayReportForm: React.FC = () => {
                                 {errors.body && <div className="error-message">{errors.body}</div>}
                             </div>
                         </div>
+                        <div className="button-container">
+                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
+                            <Button label="Siguiente" onClick={handleNext} />
+                        </div>
+                    </div>
+                );
+            case 4:
+                return (
+                    <div className="form-page">
                         <div className="form-row">
                             <div className="p-field">
                                 <label htmlFor="conclusion">Conclusión</label>
@@ -216,30 +271,77 @@ const CreateEssayReportForm: React.FC = () => {
                                 {errors.conclusion && <div className="error-message">{errors.conclusion}</div>}
                             </div>
                         </div>
-                        <div className="form-row">
-                            <div className="p-field">
-                                <label htmlFor="references">Referencias</label>
-                                <InputTextarea
-                                    id="references"
-                                    name="references"
-                                    value={formData.references}
-                                    onChange={handleChange}
-                                    className={errors.references ? 'error-input' : ''}
-                                    autoResize={false}
-                                />
-                                {errors.references && <div className="error-message">{errors.references}</div>}
-                            </div>
-                        </div>
-                        <div className="button-container centered">
-                            <Button type="submit" disabled={loading} className="submit-button">
-                                {loading ? <Loader /> : 'Crear Reporte'}
-                            </Button>
+                        <div className="button-container">
+                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
+                            <Button label="Siguiente" onClick={handleNext} />
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    );
-};
-
+                );
+                case 5:
+                    return (
+                        <div className="form-page">
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="conclusion">Conclusión</label>
+                                    <InputTextarea
+                                        id="conclusion"
+                                        name="conclusion"
+                                        value={formData.conclusion}
+                                        onChange={handleChange}
+                                        className={errors.conclusion ? 'error-input' : ''}
+                                        autoResize={false}
+                                    />
+                                    {errors.conclusion && <div className="error-message">{errors.conclusion}</div>}
+                                </div>
+                            </div>
+                            <div className="button-container">
+                                <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
+                                <Button label="Siguiente" onClick={handleNext} className="p-button-primary" />
+                            </div>
+                        </div>
+                    );
+                    case 6:
+                        return (
+                            <div className="form-page">
+                                <div className="form-row">
+                                    <div className="p-field">
+                                        <label htmlFor="references">Referencias</label>
+                                        <InputTextarea
+                                            id="references"
+                                            name="references"
+                                            value={formData.references}
+                                            onChange={handleChange}
+                                            className={errors.references ? 'error-input' : ''}
+                                            autoResize={false}
+                                        />
+                                        {errors.references && <div className="error-message">{errors.references}</div>}
+                                    </div>
+                                </div>
+                                <div className="button-container">
+                                    <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
+                                    <Button type="submit" label="Crear Reporte" disabled={loading} className="p-button-primary" />
+                                </div>
+                            </div>
+                        );
+                    default:
+                        return null;
+                }
+            };
+        
+            return (
+                <div className="create-report-container">
+                    <div className="create-report-content">
+                        <div className="header">
+                            <button className="close-button" onClick={() => navigate('/home')}>X</button>
+                        </div>
+                        <h2>Crear Reporte de Ensayo</h2>
+                        <form onSubmit={handleSubmit}>
+                            {renderFormPage()}
+                        </form>
+                    </div>
+                </div>
+            );
+        };
+        
 export default CreateEssayReportForm;
+                        

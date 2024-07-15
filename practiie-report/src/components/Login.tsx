@@ -63,11 +63,11 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
                     <form onSubmit={onSubmit}>
                         <div className="p-field">
                             <label htmlFor="email">Correo</label>
-                            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" />
+                            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Ingrese su correo" />
                         </div>
                         <div className="p-field">
                             <label htmlFor="password">Contraseña</label>
-                            <Password id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password" feedback={false} />
+                            <Password id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingrese su contraseña" feedback={false} />
                         </div>
                         {showAlert && (
                             <Alert severity={alertSeverity} onClose={() => setShowAlert(false)} sx={{ position: 'absolute', top: 0, left: 0, right: 0 }}>

@@ -72,6 +72,9 @@ body {
   justify-content: center;
 }
 
+.home-main h3 {
+  color: #333;
+}
 .recommendations {
   text-align: center;
   width: 100%;

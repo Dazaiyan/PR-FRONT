@@ -4,6 +4,7 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { Calendar } from 'primereact/calendar';
 import Loader from '../utils/Loader';
 import './CreateReport.css';
 
@@ -12,7 +13,7 @@ const CreateInternshipReportForm: React.FC = () => {
         report_name: '',
         student_name: '',
         student_year: '',
-        internship_period: '',
+        internship_period: null,
         company_name: '',
         company_address: '',
         company_phone: '',
@@ -84,10 +85,9 @@ const CreateInternshipReportForm: React.FC = () => {
     const [activeField, setActiveField] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState(1);
-
     const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | any) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -131,7 +131,7 @@ const CreateInternshipReportForm: React.FC = () => {
                     a.click();
                     a.remove();
                     window.URL.revokeObjectURL(url);
-                    navigate('/home'); // Redirect to home page after successful submission
+                    navigate('/home');
                 } else {
                     console.error('Error generating PDF:', response.statusText);
                 }
@@ -153,10 +153,6 @@ const CreateInternshipReportForm: React.FC = () => {
         setActiveField(null);
     };
 
-    const handleGoHome = () => {
-        navigate('/home');
-    };
-
     const nextStep = () => {
         setStep((prevStep) => prevStep + 1);
     };
@@ -169,7 +165,7 @@ const CreateInternshipReportForm: React.FC = () => {
         <div className="create-report-container">
             <div className="create-report-content">
                 <div className="header">
-                    <button className="close-button" onClick={handleGoHome}>X</button>
+                    <button className="close-button" onClick={() => navigate('/home')}>X</button>
                 </div>
                 <h2>Crear Reporte de Prácticas Pre-Profesionales</h2>
                 <form onSubmit={handleSubmit}>
@@ -198,6 +194,8 @@ const CreateInternshipReportForm: React.FC = () => {
                                     />
                                     {errors.student_name && <div className="error-message">{errors.student_name}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="student_year">Año del Estudiante</label>
                                     <InputText
@@ -211,16 +209,26 @@ const CreateInternshipReportForm: React.FC = () => {
                                 </div>
                                 <div className="p-field">
                                     <label htmlFor="internship_period">Período de Prácticas</label>
-                                    <InputText
+                                    <Calendar
                                         id="internship_period"
                                         name="internship_period"
                                         value={formData.internship_period}
                                         onChange={handleChange}
                                         className={errors.internship_period ? 'error-input' : ''}
+                                        dateFormat="dd/mm/yy"
+                                        showIcon
                                     />
                                     {errors.internship_period && <div className="error-message">{errors.internship_period}</div>}
                                 </div>
                             </div>
+                            <div className="button-container centered">
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 2 && (
+                        <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="company_name">Nombre de la Empresa</label>
@@ -282,13 +290,14 @@ const CreateInternshipReportForm: React.FC = () => {
                                     {errors.company_email && <div className="error-message">{errors.company_email}</div>}
                                 </div>
                             </div>
-                            <div className="button-container centered">
+                            <div className="button-container">
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
                                 <Button onClick={nextStep} className="nav-button">Siguiente</Button>
                             </div>
                         </div>
                     )}
 
-                    {step === 2 && (
+                    {step === 3 && (
                         <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
@@ -313,6 +322,8 @@ const CreateInternshipReportForm: React.FC = () => {
                                     />
                                     {errors.supervisor_position && <div className="error-message">{errors.supervisor_position}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="supervisor_profession">Profesión del Supervisor</label>
                                     <InputText
@@ -324,8 +335,6 @@ const CreateInternshipReportForm: React.FC = () => {
                                     />
                                     {errors.supervisor_profession && <div className="error-message">{errors.supervisor_profession}</div>}
                                 </div>
-                            </div>
-                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="supervisor_phone">Teléfono del Supervisor</label>
                                     <InputText
@@ -337,6 +346,8 @@ const CreateInternshipReportForm: React.FC = () => {
                                     />
                                     {errors.supervisor_phone && <div className="error-message">{errors.supervisor_phone}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="supervisor_fax">Fax del Supervisor</label>
                                     <InputText
@@ -360,18 +371,30 @@ const CreateInternshipReportForm: React.FC = () => {
                                     {errors.supervisor_email && <div className="error-message">{errors.supervisor_email}</div>}
                                 </div>
                             </div>
+                            <div className="button-container">
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
+                            </div>
+                        </div>
+                    )}
+
+{step === 4 && (
+                        <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="company_description">Descripción de la Empresa</label>
-                                    <InputText
+                                    <InputTextarea
                                         id="company_description"
                                         name="company_description"
                                         value={formData.company_description}
                                         onChange={handleChange}
                                         className={errors.company_description ? 'error-input' : ''}
+                                        onClick={() => openDialog('company_description')}
                                     />
                                     {errors.company_description && <div className="error-message">{errors.company_description}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="company_location">Ubicación de la Empresa</label>
                                     <InputText
@@ -384,15 +407,6 @@ const CreateInternshipReportForm: React.FC = () => {
                                     {errors.company_location && <div className="error-message">{errors.company_location}</div>}
                                 </div>
                             </div>
-                            <div className="button-container">
-                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
-                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
-                            </div>
-                        </div>
-                    )}
-
-                    {step === 3 && (
-                        <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="company_access">Acceso a la Empresa</label>
@@ -403,10 +417,20 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.company_access ? 'error-input' : ''}
                                         onClick={() => openDialog('company_access')}
-                                        autoResize={false}
                                     />
                                     {errors.company_access && <div className="error-message">{errors.company_access}</div>}
                                 </div>
+                            </div>
+                            <div className="button-container">
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 5 && (
+                        <div className="form-page">
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="company_resources">Recursos de la Empresa</label>
                                     <InputTextarea
@@ -416,10 +440,11 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.company_resources ? 'error-input' : ''}
                                         onClick={() => openDialog('company_resources')}
-                                        autoResize={false}
                                     />
                                     {errors.company_resources && <div className="error-message">{errors.company_resources}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="company_economic_activity">Actividad Económica de la Empresa</label>
                                     <InputTextarea
@@ -429,7 +454,6 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.company_economic_activity ? 'error-input' : ''}
                                         onClick={() => openDialog('company_economic_activity')}
-                                        autoResize={false}
                                     />
                                     {errors.company_economic_activity && <div className="error-message">{errors.company_economic_activity}</div>}
                                 </div>
@@ -444,10 +468,20 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.company_organizational_structure ? 'error-input' : ''}
                                         onClick={() => openDialog('company_organizational_structure')}
-                                        autoResize={false}
                                     />
                                     {errors.company_organizational_structure && <div className="error-message">{errors.company_organizational_structure}</div>}
                                 </div>
+                            </div>
+                            <div className="button-container">
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 6 && (
+                        <div className="form-page">
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="useful_subjects">Asignaturas Útiles</label>
                                     <InputTextarea
@@ -457,10 +491,11 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.useful_subjects ? 'error-input' : ''}
                                         onClick={() => openDialog('useful_subjects')}
-                                        autoResize={false}
                                     />
                                     {errors.useful_subjects && <div className="error-message">{errors.useful_subjects}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="missing_topics">Temas Faltantes</label>
                                     <InputTextarea
@@ -470,7 +505,6 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.missing_topics ? 'error-input' : ''}
                                         onClick={() => openDialog('missing_topics')}
-                                        autoResize={false}
                                     />
                                     {errors.missing_topics && <div className="error-message">{errors.missing_topics}</div>}
                                 </div>
@@ -482,101 +516,24 @@ const CreateInternshipReportForm: React.FC = () => {
                         </div>
                     )}
 
-                    {step === 4 && (
+                    {step === 7 && (
                         <div className="form-page">
-                            <div className="form-row">
-                                <div className="p-field">
-                                    <label htmlFor="week_1">Semana 1</label>
-                                    <InputTextarea
-                                        id="week_1"
-                                        name="week_1"
-                                        value={formData.week_1}
-                                        onChange={handleChange}
-                                        className={errors.week_1 ? 'error-input' : ''}
-                                        onClick={() => openDialog('week_1')}
-                                        autoResize={false}
-                                    />
-                                    {errors.week_1 && <div className="error-message">{errors.week_1}</div>}
+                            {['week_1', 'week_2', 'week_3', 'week_4', 'week_5', 'week_6', 'week_7'].map((week, index) => (
+                                <div className="form-row" key={week}>
+                                    <div className="p-field">
+                                        <label htmlFor={week}>Semana {index + 1}</label>
+                                        <InputTextarea
+                                            id={week}
+                                            name={week}
+                                            value={formData[week as keyof typeof formData] ?? ''}
+                                            onChange={handleChange}
+                                            className={errors[week as keyof typeof errors] ? 'error-input' : ''}
+                                            onClick={() => openDialog(week)}
+                                        />
+                                        {errors[week as keyof typeof errors] && <div className="error-message">{errors[week as keyof typeof errors]}</div>}
+                                    </div>
                                 </div>
-                                <div className="p-field">
-                                    <label htmlFor="week_2">Semana 2</label>
-                                    <InputTextarea
-                                        id="week_2"
-                                        name="week_2"
-                                        value={formData.week_2}
-                                        onChange={handleChange}
-                                        className={errors.week_2 ? 'error-input' : ''}
-                                        onClick={() => openDialog('week_2')}
-                                        autoResize={false}
-                                    />
-                                    {errors.week_2 && <div className="error-message">{errors.week_2}</div>}
-                                </div>
-                                <div className="p-field">
-                                    <label htmlFor="week_3">Semana 3</label>
-                                    <InputTextarea
-                                        id="week_3"
-                                        name="week_3"
-                                        value={formData.week_3}
-                                        onChange={handleChange}
-                                        className={errors.week_3 ? 'error-input' : ''}
-                                        onClick={() => openDialog('week_3')}
-                                        autoResize={false}
-                                    />
-                                    {errors.week_3 && <div className="error-message">{errors.week_3}</div>}
-                                </div>
-                                <div className="p-field">
-                                    <label htmlFor="week_4">Semana 4</label>
-                                    <InputTextarea
-                                        id="week_4"
-                                        name="week_4"
-                                        value={formData.week_4}
-                                        onChange={handleChange}
-                                        className={errors.week_4 ? 'error-input' : ''}
-                                        onClick={() => openDialog('week_4')}
-                                        autoResize={false}
-                                    />
-                                    {errors.week_4 && <div className="error-message">{errors.week_4}</div>}
-                                </div>
-                                <div className="p-field">
-                                    <label htmlFor="week_5">Semana 5</label>
-                                    <InputTextarea
-                                        id="week_5"
-                                        name="week_5"
-                                        value={formData.week_5}
-                                        onChange={handleChange}
-                                        className={errors.week_5 ? 'error-input' : ''}
-                                        onClick={() => openDialog('week_5')}
-                                        autoResize={false}
-                                    />
-                                    {errors.week_5 && <div className="error-message">{errors.week_5}</div>}
-                                </div>
-                                <div className="p-field">
-                                    <label htmlFor="week_6">Semana 6</label>
-                                    <InputTextarea
-                                        id="week_6"
-                                        name="week_6"
-                                        value={formData.week_6}
-                                        onChange={handleChange}
-                                        className={errors.week_6 ? 'error-input' : ''}
-                                        onClick={() => openDialog('week_6')}
-                                        autoResize={false}
-                                    />
-                                    {errors.week_6 && <div className="error-message">{errors.week_6}</div>}
-                                </div>
-                                <div className="p-field">
-                                    <label htmlFor="week_7">Semana 7</label>
-                                    <InputTextarea
-                                        id="week_7"
-                                        name="week_7"
-                                        value={formData.week_7}
-                                        onChange={handleChange}
-                                        className={errors.week_7 ? 'error-input' : ''}
-                                        onClick={() => openDialog('week_7')}
-                                        autoResize={false}
-                                    />
-                                    {errors.week_7 && <div className="error-message">{errors.week_7}</div>}
-                                </div>
-                            </div>
+                            ))}
                             <div className="button-container">
                                 <Button onClick={prevStep} className="nav-button">Anterior</Button>
                                 <Button onClick={nextStep} className="nav-button">Siguiente</Button>
@@ -584,7 +541,7 @@ const CreateInternshipReportForm: React.FC = () => {
                         </div>
                     )}
 
-                    {step === 5 && (
+                    {step === 8 && (
                         <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
@@ -598,6 +555,8 @@ const CreateInternshipReportForm: React.FC = () => {
                                     />
                                     {errors.department_name && <div className="error-message">{errors.department_name}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="objectives">Objetivos</label>
                                     <InputTextarea
@@ -607,10 +566,11 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.objectives ? 'error-input' : ''}
                                         onClick={() => openDialog('objectives')}
-                                        autoResize={false}
                                     />
                                     {errors.objectives && <div className="error-message">{errors.objectives}</div>}
                                 </div>
+                            </div>
+                            <div className="form-row">
                                 <div className="p-field">
                                     <label htmlFor="specific_functions">Funciones Específicas</label>
                                     <InputTextarea
@@ -620,7 +580,6 @@ const CreateInternshipReportForm: React.FC = () => {
                                         onChange={handleChange}
                                         className={errors.specific_functions ? 'error-input' : ''}
                                         onClick={() => openDialog('specific_functions')}
-                                        autoResize={false}
                                     />
                                     {errors.specific_functions && <div className="error-message">{errors.specific_functions}</div>}
                                 </div>
@@ -640,8 +599,7 @@ const CreateInternshipReportForm: React.FC = () => {
                 <InputTextarea
                     id={activeField || ''}
                     name={activeField || ''}
-                    value={activeField ? formData[activeField as keyof typeof formData] : ''}
-                    onChange={handleChange}
+                    value={activeField ? formData[activeField as keyof typeof formData] ?? '' : ''}                    onChange={handleChange}
                     rows={10}
                     cols={50}
                     style={{ width: '100%' }}

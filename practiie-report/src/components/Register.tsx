@@ -87,27 +87,27 @@ const Register: React.FC = () => {
                     <form onSubmit={handleRegister}>
                         <div className="p-field">
                             <label htmlFor="name">Nombre</label>
-                            <InputText id="name" value={name} onChange={(e) => setName(e.target.value)} className={nameError ? 'error-input' : ''} placeholder="Enter your name" />
+                            <InputText id="name" value={name} onChange={(e) => setName(e.target.value)} className={nameError ? 'error-input' : ''} placeholder="Ingrese sus nombres" />
                             {nameError && <div className="error-message">{nameError}</div>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="lastname">Apellido</label>
-                            <InputText id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} className={lastnameError ? 'error-input' : ''} placeholder="Enter your lastname" />
+                            <InputText id="lastname" value={lastname} onChange={(e) => setLastname(e.target.value)} className={lastnameError ? 'error-input' : ''} placeholder="Ingrese sus apeliidos" />
                             {lastnameError && <div className="error-message">{lastnameError}</div>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="email">Dirección de correo</label>
-                            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} className={emailError ? 'error-input' : ''} placeholder="Enter your email" />
+                            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} className={emailError ? 'error-input' : ''} placeholder="Ingrese su correo" />
                             {emailError && <div className="error-message">{emailError}</div>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="password">Contraseña</label>
-                            <Password id="password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? 'error-input' : ''} placeholder="Enter your password" feedback={false} />
+                            <Password id="password" value={password} onChange={(e) => setPassword(e.target.value)} className={passwordError ? 'error-input' : ''} placeholder="Ingrese su contraseña" feedback={false} />
                             {passwordError && <div className="error-message">{passwordError}</div>}
                         </div>
                         <div className="p-field">
                             <label htmlFor="confirmPassword">Confirmar contraseña</label>
-                            <Password id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={confirmPasswordError ? 'error-input' : ''} placeholder="Confirm password" feedback={false} />
+                            <Password id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={confirmPasswordError ? 'error-input' : ''} placeholder="Confirme su contraseña" feedback={false} />
                             {confirmPasswordError && <div className="error-message">{confirmPasswordError}</div>}
                         </div>
                         <Button type="submit" disabled={loading}>
