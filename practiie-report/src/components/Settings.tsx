@@ -14,23 +14,27 @@ const Settings: React.FC = () => {
 
     useEffect(() => {
         if (selectedOption === 'tus-plantillas') {
-            fetchAllTemplates();
+            fetchTemplates();
         }
     }, [selectedOption]);
 
-    const fetchAllTemplates = async () => {
+    const fetchTemplates = async () => {
         try {
-            const [reportLabsRes, internshipReportsRes, essayReportsRes, researchReportsRes] = await Promise.all([
-                axios.get('http://localhost:3000/reportLabs/all'),
-                axios.get('http://localhost:3000/internships/all'),
-                axios.get('http://localhost:3000/essays/all'),
-                axios.get('http://localhost:3000/research/all')
-            ]);
+            const reportLabResponse = await axios.get('http://localhost:3000/reportLabs/all');
+            console.log('Report Labs:', reportLabResponse.data);
+            setReportLabs(reportLabResponse.data);
 
-            setReportLabs(reportLabsRes.data);
-            setInternshipReports(internshipReportsRes.data);
-            setEssayReports(essayReportsRes.data);
-            setResearchReports(researchReportsRes.data);
+            const internshipReportResponse = await axios.get('http://localhost:3000/internshipReports/all');
+            console.log('Internship Reports:', internshipReportResponse.data);
+            setInternshipReports(internshipReportResponse.data);
+
+            const essayReportResponse = await axios.get('http://localhost:3000/essayReports/all');
+            console.log('Essay Reports:', essayReportResponse.data);
+            setEssayReports(essayReportResponse.data);
+
+            const researchReportResponse = await axios.get('http://localhost:3000/researchReports/all');
+            console.log('Research Reports:', researchReportResponse.data);
+            setResearchReports(researchReportResponse.data);
         } catch (error) {
             console.error('Error fetching templates:', error);
         }
@@ -52,6 +56,24 @@ const Settings: React.FC = () => {
     const downloadPDF = (reportName: string, reportType: string) => {
         window.open(`http://localhost:3000/reports/download/${reportType}/${reportName}`, '_blank');
     };
+
+    const renderTemplateSection = (templates: any[], title: string, type: string) => (
+        <div>
+            <h3>{title}</h3>
+            <div className="templates-list">
+                {templates.length > 0 ? (
+                    templates.map((template) => (
+                        <div key={template.id} className="template-card">
+                            <h3>{template.report_name || template.title || template.researchTitle}</h3>
+                            <Button label="Descargar PDF" onClick={() => downloadPDF(template.report_name || template.title || template.researchTitle, type)} />
+                        </div>
+                    ))
+                ) : (
+                    <p>No has usado ninguna plantilla aún.</p>
+                )}
+            </div>
+        </div>
+    );
 
     return (
         <div className="settings-container">
@@ -79,60 +101,10 @@ const Settings: React.FC = () => {
                 {selectedOption === 'tus-plantillas' && (
                     <div>
                         <h2>Tus Plantillas</h2>
-                        <div>
-                            <h3>Reportes de Laboratorio</h3>
-                            <div className="templates-list">
-                                {reportLabs.length > 0 ? (
-                                    reportLabs.map((template) => (
-                                        <div key={template.id} className="template-card animate">
-                                            <h4>{template.report_name}</h4>
-                                            <Button label="Descargar PDF" onClick={() => downloadPDF(template.report_name, 'ReportLab')} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No has usado ninguna plantilla de laboratorio aún.</p>
-                                )}
-                            </div>
-                            <h3>Reportes de Practicas Preprofesionales</h3>
-                            <div className="templates-list">
-                                {internshipReports.length > 0 ? (
-                                    internshipReports.map((template) => (
-                                        <div key={template.id} className="template-card animate">
-                                            <h4>{template.report_name}</h4>
-                                            <Button label="Descargar PDF" onClick={() => downloadPDF(template.report_name, 'InternshipReport')} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No has usado ninguna plantilla de prácticas preprofesionales aún.</p>
-                                )}
-                            </div>
-                            <h3>Reportes de Ensayo</h3>
-                            <div className="templates-list">
-                                {essayReports.length > 0 ? (
-                                    essayReports.map((template) => (
-                                        <div key={template.id} className="template-card animate">
-                                            <h4>{template.title}</h4>
-                                            <Button label="Descargar PDF" onClick={() => downloadPDF(template.title, 'EssayReport')} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No has usado ninguna plantilla de ensayo aún.</p>
-                                )}
-                            </div>
-                            <h3>Reportes de Investigación</h3>
-                            <div className="templates-list">
-                                {researchReports.length > 0 ? (
-                                    researchReports.map((template) => (
-                                        <div key={template.id} className="template-card animate">
-                                            <h4>{template.researchTitle}</h4>
-                                            <Button label="Descargar PDF" onClick={() => downloadPDF(template.researchTitle, 'ResearchReport')} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <p>No has usado ninguna plantilla de investigación aún.</p>
-                                )}
-                            </div>
-                        </div>
+                        {renderTemplateSection(reportLabs, 'Reportes de Laboratorio', 'ReportLab')}
+                        {renderTemplateSection(internshipReports, 'Reportes de Prácticas Preprofesionales', 'InternshipReport')}
+                        {renderTemplateSection(essayReports, 'Reportes de Ensayo', 'EssayReport')}
+                        {renderTemplateSection(researchReports, 'Reportes de Investigación', 'ResearchReport')}
                     </div>
                 )}
             </div>

@@ -1,3 +1,4 @@
+/* src/components/Settings.css */
 body {
     display: flex;
     justify-content: center;
@@ -81,7 +82,17 @@ body {
     flex-grow: 1;
     padding: 50px;
     background-color: #f5f5f5;
-    overflow-y: auto; /* Añade desplazamiento vertical si es necesario */
+}
+
+.templates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.templates p {
+    font-size: 16px;
+    color: #2c3e50;
 }
 
 .templates-list {
@@ -98,12 +109,9 @@ body {
     width: 250px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     text-align: center;
-    transform: translateY(20px);
-    opacity: 0;
-    animation: fadeInUp 0.5s forwards; /* Añade la animación */
 }
 
-.template-card h4 {
+.template-card h3 {
     font-size: 18px;
     margin-bottom: 10px;
 }
@@ -112,13 +120,7 @@ body {
     margin-top: 10px;
 }
 
-@keyframes fadeInUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
 }
