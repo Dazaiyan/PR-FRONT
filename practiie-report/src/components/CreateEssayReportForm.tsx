@@ -3,44 +3,53 @@ import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button';
-import { Calendar } from 'primereact/calendar'; // Importar el Calendar para el datepicker
+import { Dialog } from 'primereact/dialog';
+import { Calendar } from 'primereact/calendar';
 import Loader from '../utils/Loader';
+import { createReport } from '../services/reportService';
 import './CreateReport.css';
 
 const CreateEssayReportForm: React.FC = () => {
     const [formData, setFormData] = useState({
-        title: '',
-        author: '',
+        report_name: '',
+        school: '',
+        date: null as Date | null,
         course: '',
-        instructor: '',
-        dueDate: null as Date | null, // Inicializar como null o Date
-        abstract: '',
-        introduction: '',
-        body: '',
-        conclusion: '',
+        subject: '',
+        student: '',
+        title: '',
+        objective: '',
+        materials: '',
+        procedure: '',
+        dataResults: '',
+        analysis: '',
+        conclusions: '',
         references: ''
     });
-    
-    
-
     const [errors, setErrors] = useState({
-        title: '',
-        author: '',
+        report_name: '',
+        school: '',
+        date: '',
         course: '',
-        instructor: '',
-        dueDate: '',
-        abstract: '',
-        introduction: '',
-        body: '',
-        conclusion: '',
+        subject: '',
+        student: '',
+        title: '',
+        objective: '',
+        materials: '',
+        procedure: '',
+        dataResults: '',
+        analysis: '',
+        conclusions: '',
         references: ''
     });
-
-    const [activePage, setActivePage] = useState(0); // Estado para la página activa
+    const [visible, setVisible] = useState(false);
+    const [activeField, setActiveField] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [step, setStep] = useState(1);
+
     const navigate = useNavigate();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | any) => {
         const { name, value } = e.target;
         setFormData({
             ...formData,
@@ -48,14 +57,12 @@ const CreateEssayReportForm: React.FC = () => {
         });
     };
 
-    const handleDateChange = (e: { value: Date | Date[] }) => {
+    const handleDateChange = (e: { value: Date | Date[] | null }) => {
         setFormData({
             ...formData,
-            dueDate: e.value instanceof Date ? e.value : e.value[0] // Manejar Date o Date[]
+            date: e.value as Date | null
         });
     };
-    
-    
 
     const validateForm = () => {
         const newErrors: any = {};
@@ -70,22 +77,12 @@ const CreateEssayReportForm: React.FC = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleNext = () => {
-        if (validateForm()) {
-            setActivePage(activePage + 1);
-        }
-    };
-
-    const handlePrevious = () => {
-        setActivePage(activePage - 1);
-    };
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
             setLoading(true);
             try {
-                const response = await fetch('http://localhost:3000/essay/create', {
+                const response = await fetch('http://localhost:3000/reports/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -98,250 +95,289 @@ const CreateEssayReportForm: React.FC = () => {
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `${formData.title}.pdf`;
+                    a.download = `${formData.report_name}.pdf`;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
                     window.URL.revokeObjectURL(url);
-                    navigate('/home'); // Redirigir a la página de inicio después de la presentación exitosa
+                    navigate('/home'); // Redirect to home page after successful submission
                 } else {
-                    console.error('Error generando PDF:', response.statusText);
+                    console.error('Error generating PDF:', response.statusText);
                 }
             } catch (error) {
-                console.error('Error enviando formulario:', error);
+                console.error('Error submitting form:', error);
             } finally {
                 setLoading(false);
             }
         }
     };
 
-    const renderFormPage = () => {
-        switch (activePage) {
-            case 0:
-                return (
-                    <div className="form-page">
-                        <div className="form-row">
-                            <div className="p-field">
-                                <label htmlFor="title">Título</label>
-                                <InputText
-                                    id="title"
-                                    name="title"
-                                    value={formData.title}
-                                    onChange={handleChange}
-                                    className={errors.title ? 'error-input' : ''}
-                                />
-                                {errors.title && <div className="error-message">{errors.title}</div>}
-                            </div>
-                            <div className="p-field">
-                                <label htmlFor="author">Autor</label>
-                                <InputText
-                                    id="author"
-                                    name="author"
-                                    value={formData.author}
-                                    onChange={handleChange}
-                                    className={errors.author ? 'error-input' : ''}
-                                />
-                                {errors.author && <div className="error-message">{errors.author}</div>}
-                            </div>
-                            <div className="p-field">
-                                <label htmlFor="course">Curso</label>
-                                <InputText
-                                    id="course"
-                                    name="course"
-                                    value={formData.course}
-                                    onChange={handleChange}
-                                    className={errors.course ? 'error-input' : ''}
-                                />
-                                {errors.course && <div className="error-message">{errors.course}</div>}
-                            </div>
-                        </div>
-                        <div className="form-row">
-                            <div className="p-field">
-                                <label htmlFor="instructor">Instructor</label>
-                                <InputText
-                                    id="instructor"
-                                    name="instructor"
-                                    value={formData.instructor}
-                                    onChange={handleChange}
-                                    className={errors.instructor ? 'error-input' : ''}
-                                />
-                                {errors.instructor && <div className="error-message">{errors.instructor}</div>}
-                            </div>
-                            <div className="p-field">
-                                <label htmlFor="dueDate">Fecha de Entrega</label>
-                                <Calendar
-                                    id="dueDate"
-                                    name="dueDate"
-                                    value={formData.dueDate}
-                                    className={errors.dueDate ? 'error-input' : ''}
-                                    dateFormat="dd/mm/yy"
-                                    showIcon
-                                />
-                                {errors.dueDate && <div className="error-message">{errors.dueDate}</div>}
-                            </div>
-                        </div>
-                        <div className="button-container centered">
-                            <Button label="Siguiente" onClick={handleNext} />
-                        </div>
-                    </div>
-                );
-            case 1:
-                return (
-                    <div className="form-page">
-                        <div className="form-row">
-                            <div className="p-field">
-                                <label htmlFor="abstract">Resumen</label>
-                                <InputTextarea
-                                    id="abstract"
-                                    name="abstract"
-                                    value={formData.abstract}
-                                    onChange={handleChange}
-                                    className={errors.abstract ? 'error-input' : ''}
-                                    autoResize={false}
-                                />
-                                {errors.abstract && <div className="error-message">{errors.abstract}</div>}
-                            </div>
-                        </div>
-                        <div className="button-container">
-                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
-                            <Button label="Siguiente" onClick={handleNext} />
-                        </div>
-                    </div>
-                );
-            case 2:
-                return (
-                    <div className="form-page">
-                        <div className="form-row">
-                            <div className="p-field">
-                                <label htmlFor="introduction">Introducción</label>
-                                <InputTextarea
-                                    id="introduction"
-                                    name="introduction"
-                                    value={formData.introduction}
-                                    onChange={handleChange}
-                                    className={errors.introduction ? 'error-input' : ''}
-                                    autoResize={false}
-                                />
-                                {errors.introduction && <div className="error-message">{errors.introduction}</div>}
-                            </div>
-                        </div>
-                        <div className="button-container">
-                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
-                            <Button label="Siguiente" onClick={handleNext} />
-                        </div>
-                    </div>
-                );
-            case 3:
-                return (
-                    <div className="form-page">
-                        <div className="form-row">
-                            <div className="p-field">
-                                <label htmlFor="body">Desarrollo</label>
-                                <InputTextarea
-                                    id="body"
-                                    name="body"
-                                    value={formData.body}
-                                    onChange={handleChange}
-                                    className={errors.body ? 'error-input' : ''}
-                                    autoResize={false}
-                                />
-                                {errors.body && <div className="error-message">{errors.body}</div>}
-                            </div>
-                        </div>
-                        <div className="button-container">
-                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
-                            <Button label="Siguiente" onClick={handleNext} />
-                        </div>
-                    </div>
-                );
-            case 4:
-                return (
-                    <div className="form-page">
-                        <div className="form-row">
-                            <div className="p-field">
-                                <label htmlFor="conclusion">Conclusión</label>
-                                <InputTextarea
-                                    id="conclusion"
-                                    name="conclusion"
-                                    value={formData.conclusion}
-                                    onChange={handleChange}
-                                    className={errors.conclusion ? 'error-input' : ''}
-                                    autoResize={false}
-                                />
-                                {errors.conclusion && <div className="error-message">{errors.conclusion}</div>}
-                            </div>
-                        </div>
-                        <div className="button-container">
-                            <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
-                            <Button label="Siguiente" onClick={handleNext} />
-                        </div>
-                    </div>
-                );
-                case 5:
-                    return (
+    const openDialog = (field: string) => {
+        setActiveField(field);
+        setVisible(true);
+    };
+
+    const closeDialog = () => {
+        setVisible(false);
+        setActiveField(null);
+    };
+
+    const handleGoHome = () => {
+        navigate('/home');
+    };
+
+    const nextStep = () => {
+        setStep((prevStep) => prevStep + 1);
+    };
+
+    const prevStep = () => {
+        setStep((prevStep) => prevStep - 1);
+    };
+
+    return (
+        <div className="create-report-container">
+            <div className="create-report-content">
+                <div className="header">
+                    <button className="close-button" onClick={handleGoHome}>X</button>
+                </div>
+                <h2>Crear Reporte</h2>
+                <form onSubmit={handleSubmit}>
+                    {step === 1 && (
                         <div className="form-page">
                             <div className="form-row">
                                 <div className="p-field">
-                                    <label htmlFor="conclusion">Conclusión</label>
-                                    <InputTextarea
-                                        id="conclusion"
-                                        name="conclusion"
-                                        value={formData.conclusion}
+                                    <label htmlFor="report_name">Nombre del Reporte</label>
+                                    <InputText
+                                        id="report_name"
+                                        name="report_name"
+                                        value={formData.report_name}
                                         onChange={handleChange}
-                                        className={errors.conclusion ? 'error-input' : ''}
-                                        autoResize={false}
+                                        className={errors.report_name ? 'error-input' : ''}
                                     />
-                                    {errors.conclusion && <div className="error-message">{errors.conclusion}</div>}
+                                    {errors.report_name && <div className="error-message">{errors.report_name}</div>}
+                                </div>
+                                <div className="p-field">
+                                    <label htmlFor="school">Institución</label>
+                                    <InputText
+                                        id="school"
+                                        name="school"
+                                        value={formData.school}
+                                        onChange={handleChange}
+                                        className={errors.school ? 'error-input' : ''}
+                                    />
+                                    {errors.school && <div className="error-message">{errors.school}</div>}
+                                </div>
+                                <div className="p-field">
+                                    <label htmlFor="date">Fecha</label>
+                                    <Calendar
+                                        id="date"
+                                        name="date"
+                                        value={formData.date}
+                                        onChange={handleChange}
+                                        className={errors.date ? 'error-input' : ''}
+                                        dateFormat="yy-mm-dd"
+                                        showIcon
+                                    />
+                                    {errors.date && <div className="error-message">{errors.date}</div>}
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="course">Curso</label>
+                                    <InputText
+                                        id="course"
+                                        name="course"
+                                        value={formData.course}
+                                        onChange={handleChange}
+                                        className={errors.course ? 'error-input' : ''}
+                                    />
+                                    {errors.course && <div className="error-message">{errors.course}</div>}
+                                </div>
+                                <div className="p-field">
+                                    <label htmlFor="subject">Asignatura</label>
+                                    <InputText
+                                        id="subject"
+                                        name="subject"
+                                        value={formData.subject}
+                                        onChange={handleChange}
+                                        className={errors.subject ? 'error-input' : ''}
+                                    />
+                                    {errors.subject && <div className="error-message">{errors.subject}</div>}
+                                </div>
+                            </div>
+                            <div className="button-container centered">
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 2 && (
+                        <div className="form-page">
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="student">Alumno</label>
+                                    <InputText
+                                        id="student"
+                                        name="student"
+                                        value={formData.student}
+                                        onChange={handleChange}
+                                        className={errors.student ? 'error-input' : ''}
+                                    />
+                                    {errors.student && <div className="error-message">{errors.student}</div>}
+                                </div>
+                                <div className="p-field">
+                                    <label htmlFor="title">Título</label>
+                                    <InputText
+                                        id="title"
+                                        name="title"
+                                        value={formData.title}
+                                        onChange={handleChange}
+                                        className={errors.title ? 'error-input' : ''}
+                                    />
+                                    {errors.title && <div className="error-message">{errors.title}</div>}
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="objective">Objetivo</label>
+                                    <InputText
+                                        id="objective"
+                                        name="objective"
+                                        value={formData.objective}
+                                        onChange={handleChange}
+                                        className={errors.objective ? 'error-input' : ''}
+                                    />
+                                    {errors.objective && <div className="error-message">{errors.objective}</div>}
+                                </div>
+                                <div className="p-field">
+                                    <label htmlFor="materials">Materiales</label>
+                                    <InputText
+                                        id="materials"
+                                        name="materials"
+                                        value={formData.materials}
+                                        onChange={handleChange}
+                                        className={errors.materials ? 'error-input' : ''}
+                                    />
+                                    {errors.materials && <div className="error-message">{errors.materials}</div>}
                                 </div>
                             </div>
                             <div className="button-container">
-                                <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
-                                <Button label="Siguiente" onClick={handleNext} className="p-button-primary" />
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
                             </div>
                         </div>
-                    );
-                    case 6:
-                        return (
-                            <div className="form-page">
-                                <div className="form-row">
-                                    <div className="p-field">
-                                        <label htmlFor="references">Referencias</label>
-                                        <InputTextarea
-                                            id="references"
-                                            name="references"
-                                            value={formData.references}
-                                            onChange={handleChange}
-                                            className={errors.references ? 'error-input' : ''}
-                                            autoResize={false}
-                                        />
-                                        {errors.references && <div className="error-message">{errors.references}</div>}
-                                    </div>
-                                </div>
-                                <div className="button-container">
-                                    <Button label="Anterior" onClick={handlePrevious} className="p-button-secondary" />
-                                    <Button type="submit" label="Crear Reporte" disabled={loading} className="p-button-primary" />
+                    )}
+
+                    {step === 3 && (
+                        <div className="form-page">
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="procedure">Procedimiento</label>
+                                    <InputTextarea
+                                        id="procedure"
+                                        name="procedure"
+                                        value={formData.procedure || ''}
+                                        onChange={handleChange}
+                                        className={errors.procedure ? 'error-input' : ''}
+                                        autoResize
+                                    />
+                                    {errors.procedure && <div className="error-message">{errors.procedure}</div>}
                                 </div>
                             </div>
-                        );
-                    default:
-                        return null;
-                }
-            };
-        
-            return (
-                <div className="create-report-container">
-                    <div className="create-report-content">
-                        <div className="header">
-                            <button className="close-button" onClick={() => navigate('/home')}>X</button>
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="dataResults">Resultados</label>
+                                    <InputTextarea
+                                        id="dataResults"
+                                        name="dataResults"
+                                        value={formData.dataResults || ''}
+                                        onChange={handleChange}
+                                        className={errors.dataResults ? 'error-input' : ''}
+                                        autoResize
+                                    />
+                                    {errors.dataResults && <div className="error-message">{errors.dataResults}</div>}
+                                </div>
+                            </div>
+                            <div className="button-container">
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
+                            </div>
                         </div>
-                        <h2>Crear Reporte de Ensayo</h2>
-                        <form onSubmit={handleSubmit}>
-                            {renderFormPage()}
-                        </form>
-                    </div>
-                </div>
-            );
-        };
-        
+                    )}
+
+                    {step === 4 && (
+                        <div className="form-page">
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="analysis">Análisis</label>
+                                    <InputTextarea
+                                        id="analysis"
+                                        name="analysis"
+                                        value={formData.analysis || ''}
+                                        onChange={handleChange}
+                                        className={errors.analysis ? 'error-input' : ''}
+                                        autoResize
+                                    />
+                                    {errors.analysis && <div className="error-message">{errors.analysis}</div>}
+                                </div>
+                            </div>
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="conclusions">Conclusiones</label>
+                                    <InputTextarea
+                                        id="conclusions"
+                                        name="conclusions"
+                                        value={formData.conclusions || ''}
+                                        onChange={handleChange}
+                                        className={errors.conclusions ? 'error-input' : ''}
+                                        autoResize
+                                    />
+                                    {errors.conclusions && <div className="error-message">{errors.conclusions}</div>}
+                                </div>
+                            </div>
+                            <div className="button-container">
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
+                                <Button onClick={nextStep} className="nav-button">Siguiente</Button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 5 && (
+                        <div className="form-page">
+                            <div className="form-row">
+                                <div className="p-field">
+                                    <label htmlFor="references">Referencias</label>
+                                    <InputTextarea
+                                        id="references"
+                                        name="references"
+                                        value={formData.references || ''}
+                                        onChange={handleChange}
+                                        className={errors.references ? 'error-input' : ''}
+                                        autoResize
+                                    />
+                                    {errors.references && <div className="error-message">{errors.references}</div>}
+                                </div>
+                            </div>
+                            <div className="button-container">
+                                <Button onClick={prevStep} className="nav-button">Anterior</Button>
+                                <Button type="submit" className="nav-button">Enviar</Button>
+                            </div>
+                        </div>
+                    )}
+                </form>
+                <Dialog
+                    visible={visible}
+                    onHide={closeDialog}
+                    header={activeField}
+                    className="field-dialog"
+                    breakpoints={{ '960px': '75vw', '640px': '100vw' }}
+                    style={{ width: '50vw' }}
+                >
+                </Dialog>
+                {loading && <Loader />}
+            </div>
+        </div>
+    );
+};
+
 export default CreateEssayReportForm;
-                        
