@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
-import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { Alert, AlertTitle } from '@mui/material';
-import Loader from '../utils/Loader'; // Importa el componente Loader
-import './Login.css';
+import Loader from '../utils/Loader'; 
+import './Recover.css';
 
-interface LoginProps {
-    handleLogin: (email: string, password: string) => Promise<{ error?: string, name?: string }>;
+interface RecoverProps {
+    recoverPassword: (email: string) => Promise<{ error?: string }>;
 }
 
-const Login: React.FC<LoginProps> = ({ handleLogin }) => {
+const Recover: React.FC<RecoverProps> = ({ recoverPassword }) => {
     const [email, setEmail] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
     const [showAlert, setShowAlert] = useState<boolean>(false);
     const [alertMessage, setAlertMessage] = useState<string>('');
     const [alertSeverity, setAlertSeverity] = useState<'success' | 'error'>('success');
@@ -35,67 +33,55 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
         }
 
         setLoading(true); // Muestra el loader
-        const result = await handleLogin(email, password);
+        const result = await recoverPassword(email);
         setLoading(false); // Oculta el loader
 
         if (result.error) {
-            setAlertSeverity('error');
             setAlertMessage(result.error);
+            setAlertSeverity('error');
             setShowAlert(true);
-        } else if (result.name) {
-            localStorage.setItem('userName', result.name);
-            navigate('/home');
+        } else {
+            setAlertSeverity('success');
+            setAlertMessage('Correo de restablecimiento enviado correctamente.');
+            setShowAlert(true);
         }
     };
 
-    const handleRegisterClick = () => {
-        navigate('/register');
+    const goToLogin = () => {
+        navigate('/login');
     };
-
-    const recoverClick = () => {
-        navigate('/recover');
-    };
-
-    
 
     return (
         <div className="login-container">
             <div className="login-content">
-                <div className="login-left">
-                    <img src="/logo.png" alt="PractiieReport Logo" className="login-logo" />
+                <div className="login-header">
+                    <button className="close-button" onClick={goToLogin}>X</button>
                 </div>
                 <div className="login-right">
-                    <h2>Iniciar Sesión</h2>
+                    <div className="text-font">
+                        <h2>Recuperar Contraseña</h2>
+                    </div>
                     <form onSubmit={onSubmit}>
                         <div className="p-field">
                             <label htmlFor="email">Correo</label>
-                            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Ingrese su correo" />
-                        </div>
-                        <div className="p-field">
-                            <label htmlFor="password">Contraseña</label>
-                            <Password id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingrese su contraseña" feedback={false} />
-                            <button className="link-button" onClick={recoverClick}>Olvidaste tu contraseña?</button>
+                            <InputText id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Ingrese su correo electrónico" />
                         </div>
                         {showAlert && (
                             <Alert severity={alertSeverity} onClose={() => setShowAlert(false)} sx={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
-                                <AlertTitle>{alertSeverity === 'success' ? 'Success' : 'Error'}</AlertTitle>
+                                <AlertTitle>{alertSeverity === 'success' ? 'Éxito' : 'Error'}</AlertTitle>
                                 {alertMessage}
                             </Alert>
                         )}
                         <Button type="submit" disabled={loading}>
                             <div className="button-content">
-                                {loading ? <Loader /> : "Iniciar sesión"}
+                                {loading ? <Loader /> : "Enviar correo"}
                             </div>
                         </Button>
                     </form>
-                    <div className="login-footer">
-                        <p>No tienes una cuenta?</p>
-                        <button className="link-button" onClick={handleRegisterClick}>Regístrate aquí</button>
-                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default Login;
+export default Recover;

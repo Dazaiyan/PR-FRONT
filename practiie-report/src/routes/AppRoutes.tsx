@@ -2,13 +2,14 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginView from '../views/LoginView';
 import RegisterView from '../views/RegisterView';
-import Home from '../components/Home';
 import CreateReportLab from '../components/CreateReportFrom';
 import CreateResearchReportForm from '../components/CreateResearchReportForm';
 import CreateEssayReportForm from '../components/CreateEssayReportForm';
 import CreateInternshipReportForm from '../components/CreateInternshipReportForm';
 import HomeView from '../views/HomeView';
 import SettingsView from '../components/Settings';
+import RecoverView from '../views/RecoverView';
+import NewPasswordView from '../views/NewPasswordView';
 
 const AppRoutes: React.FC = () => {
     return (
@@ -23,6 +24,8 @@ const AppRoutes: React.FC = () => {
                 <Route path="/create-report-internship" element={<CreateInternshipReportForm />} />
                 <Route path="/settings" element={<SettingsView />} />
                 <Route path="/" element={<LoginView />} />
+                <Route path="/reset" element={<NewPasswordView />} />
+                <Route path="/recover" element={<RecoverView />} />
             </Routes>
         </Router>
     );
