@@ -6,7 +6,6 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Calendar } from 'primereact/calendar';
 import Loader from '../utils/Loader';
-import { createReport } from '../services/reportService';
 import './CreateReport.css';
 
 const CreateReportForm: React.FC = () => {

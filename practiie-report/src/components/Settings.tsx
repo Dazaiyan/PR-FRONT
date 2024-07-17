@@ -20,19 +20,19 @@ const Settings: React.FC = () => {
 
     const fetchTemplates = async () => {
         try {
-            const reportLabResponse = await axios.get('http://localhost:3000/reportLabs/all');
+            const reportLabResponse = await axios.get('http://localhost:3000/reports/all');
             console.log('Report Labs:', reportLabResponse.data);
             setReportLabs(reportLabResponse.data);
 
-            const internshipReportResponse = await axios.get('http://localhost:3000/internshipReports/all');
+            const internshipReportResponse = await axios.get('http://localhost:3000/internship/all');
             console.log('Internship Reports:', internshipReportResponse.data);
             setInternshipReports(internshipReportResponse.data);
 
-            const essayReportResponse = await axios.get('http://localhost:3000/essayReports/all');
+            const essayReportResponse = await axios.get('http://localhost:3000/essay/all');
             console.log('Essay Reports:', essayReportResponse.data);
             setEssayReports(essayReportResponse.data);
 
-            const researchReportResponse = await axios.get('http://localhost:3000/researchReports/all');
+            const researchReportResponse = await axios.get('http://localhost:3000/research/all');
             console.log('Research Reports:', researchReportResponse.data);
             setResearchReports(researchReportResponse.data);
         } catch (error) {
@@ -53,10 +53,10 @@ const Settings: React.FC = () => {
         navigate('/home');
     };
 
-    const downloadPDF = (reportName: string, reportType: string) => {
-        window.open(`http://localhost:3000/reports/download/${reportType}/${reportName}`, '_blank');
+    const downloadPDF = (reportId: number, reportType: string) => {
+        window.open(`http://localhost:3000/reports/download/${reportType}/${reportId}`, '_blank');
     };
-
+    
     const renderTemplateSection = (templates: any[], title: string, type: string) => (
         <div>
             <h3>{title}</h3>
@@ -65,7 +65,7 @@ const Settings: React.FC = () => {
                     templates.map((template) => (
                         <div key={template.id} className="template-card">
                             <h3>{template.report_name || template.title || template.researchTitle}</h3>
-                            <Button label="Descargar PDF" onClick={() => downloadPDF(template.report_name || template.title || template.researchTitle, type)} />
+                            <Button label="Descargar PDF" onClick={() => downloadPDF(template.id, type)} />
                         </div>
                     ))
                 ) : (
@@ -95,7 +95,6 @@ const Settings: React.FC = () => {
                     <div>
                         <h2>Tu Información</h2>
                         <p>Aquí puedes ver y editar tu información personal.</p>
-                        {/* Contenido adicional para "Tu Información" */}
                     </div>
                 )}
                 {selectedOption === 'tus-plantillas' && (
