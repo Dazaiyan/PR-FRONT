@@ -14,7 +14,7 @@ body {
 
 .register-content {
     display: flex;
-    background-color: #ecf0f1;
+    background-color: #ffffff;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -25,7 +25,7 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: #ecf0f1; /* Fondo blanco en ambas secciones */
+    background-color: #ffffff; /* Fondo blanco en ambas secciones */
     color: #2c3e50;
 }
 
@@ -45,7 +45,7 @@ body {
 
 .register-logo {
     width: 450px;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .register-left h2 {
