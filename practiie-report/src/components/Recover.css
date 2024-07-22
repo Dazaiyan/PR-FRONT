@@ -1,34 +1,52 @@
-.login-right {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #ecf0f1; /* Fondo blanco en ambas secciones */
-    color: #2c3e50;
-    width: 100%;
-}
-
-.text-font {
-    font-size: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.login-container {
+.login-container1 {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.login-content {
+.login-content1 {
     display: flex;
     background-color: #ecf0f1;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    position: relative; /* Añadir posición relativa */
+    max-width: 500px; /* Ajustar el ancho máximo */
+    width: 100%; /* Aseguramos que el contenedor ocupe todo el ancho posible */
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #122533;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.login-derecha {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px; /* Ajustar el padding para el contenido de la derecha */
+    background-color: #ecf0f1; /* Fondo blanco en ambas secciones */
+    color: #2c3e50;
+    width: 100%;
+}
+
+.text-font {
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.text-font h2 {
+    font-size: 30px;
 }
 
 .p-field {

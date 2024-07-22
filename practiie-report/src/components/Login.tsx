@@ -56,8 +56,6 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
         navigate('/recover');
     };
 
-    
-
     return (
         <div className="login-container">
             <div className="login-content">
@@ -74,7 +72,6 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
                         <div className="p-field">
                             <label htmlFor="password">Contraseña</label>
                             <Password id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Ingrese su contraseña" feedback={false} />
-                            <button className="link-button" onClick={recoverClick}>Olvidaste tu contraseña?</button>
                         </div>
                         {showAlert && (
                             <Alert severity={alertSeverity} onClose={() => setShowAlert(false)} sx={{ position: 'absolute', top: 0, left: 0, right: 0 }}>
@@ -91,6 +88,7 @@ const Login: React.FC<LoginProps> = ({ handleLogin }) => {
                     <div className="login-footer">
                         <p>No tienes una cuenta?</p>
                         <button className="link-button" onClick={handleRegisterClick}>Regístrate aquí</button>
+                        <button className="link-button" onClick={recoverClick}>Olvidaste tu contraseña?</button>
                     </div>
                 </div>
             </div>

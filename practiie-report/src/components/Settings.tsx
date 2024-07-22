@@ -86,7 +86,7 @@ const Settings: React.FC = () => {
                     </ul>
                 </div>
                 <div className="settings-buttons">
-                    <button onClick={handleLogout} className="settings-button">Log Out</button>
+                    <button onClick={handleLogout} className="settings-button">Cerrar Sesion</button>
                     <button onClick={handleGoHome} className="settings-button">Volver</button>
                 </div>
             </div>

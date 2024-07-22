@@ -52,12 +52,10 @@ const Recover: React.FC<RecoverProps> = ({ recoverPassword }) => {
     };
 
     return (
-        <div className="login-container">
-            <div className="login-content">
-                <div className="login-header">
-                    <button className="close-button" onClick={goToLogin}>X</button>
-                </div>
-                <div className="login-right">
+        <div className="login-container1">
+            <div className="login-content1">
+                <button className="close-button" onClick={goToLogin}>X</button>
+                <div className="login-derecha">
                     <div className="text-font">
                         <h2>Recuperar Contraseña</h2>
                     </div>
