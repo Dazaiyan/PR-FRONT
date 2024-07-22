@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import axios from 'axios';
 
 const Settings: React.FC = () => {
-    const [selectedOption, setSelectedOption] = useState<string>('tu-informacion');
+    const [selectedOption, setSelectedOption] = useState<string>('tus-plantillas');
     const [reportLabs, setReportLabs] = useState<any[]>([]);
     const [internshipReports, setInternshipReports] = useState<any[]>([]);
     const [essayReports, setEssayReports] = useState<any[]>([]);
@@ -81,7 +81,6 @@ const Settings: React.FC = () => {
                 <div>
                     <h2>Tu y PractiieReport</h2>
                     <ul>
-                        <li onClick={() => handleMenuClick('tu-informacion')} className={selectedOption === 'tu-informacion' ? 'active' : ''}>Tu Información</li>
                         <li onClick={() => handleMenuClick('tus-plantillas')} className={selectedOption === 'tus-plantillas' ? 'active' : ''}>Tus Plantillas</li>
                     </ul>
                 </div>
@@ -91,12 +90,6 @@ const Settings: React.FC = () => {
                 </div>
             </div>
             <div className="settings-content">
-                {selectedOption === 'tu-informacion' && (
-                    <div>
-                        <h2>Tu Información</h2>
-                        <p>Aquí puedes ver y editar tu información personal.</p>
-                    </div>
-                )}
                 {selectedOption === 'tus-plantillas' && (
                     <div>
                         <h2>Tus Plantillas</h2>

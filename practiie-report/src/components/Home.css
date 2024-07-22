@@ -1,3 +1,16 @@
+.profile-icon {
+  width: 120px; /* Reducir el ancho */
+  height: 100px; /* Reducir la altura */
+  margin-bottom: 10px; /* Reducir el margen inferior */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Resto del CSS existente */
 body {
   margin: 0;
   padding: 0;
@@ -14,28 +27,29 @@ body {
 
 .home-header {
   width: 100%;
-  max-width: 1200px; /* Aumentar el ancho máximo */
+  max-width: 1200px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #ecf0f1;
-  padding: 30px; /* Aumentar el padding */
+  padding: 30px;
   border-radius: 10px;
-  margin-bottom: 30px; /* Aumentar el margen inferior */
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Aumentar el tamaño de la sombra */
+  margin-bottom: 30px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .home-welcome {
   flex-grow: 1;
   text-align: left;
-  font-size: 28px; /* Aumentar el tamaño de fuente */
+  font-size: 28px;
   color: #2c3e50;
-  padding-left: 30px; /* Aumentar el padding izquierdo */
+  padding-left: 60px;
+  padding-right: 20px;
 }
 
 .home-welcome h1 {
   font-weight: bold;
-  font-size: 2.5em; /* Aumentar el tamaño de fuente */
+  font-size: 2.5em;
 }
 
 .home-welcome h1 span {
@@ -50,22 +64,16 @@ body {
   color: #333;
 }
 
-.profile-icon {
-  width: 160px; /* Aumentar el ancho */
-  height: 130px; /* Aumentar la altura */
-  margin-bottom: 20px; /* Aumentar el margen inferior */
-}
-
 .home-main {
   width: 100%;
-  max-width: 1200px; /* Aumentar el ancho máximo */
+  max-width: 1200px;
   background-color: #ecf0f1;
-  padding: 30px; /* Aumentar el padding */
+  padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Aumentar el tamaño de la sombra */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
   font-weight: bold;
-  font-size: 1.4em; /* Aumentar el tamaño de fuente */
+  font-size: 1.4em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -75,13 +83,14 @@ body {
 .home-main h3 {
   color: #333;
 }
+
 .recommendations {
   text-align: center;
   width: 100%;
 }
 
 .recommendations h3 {
-  font-size: 42px; /* Aumentar el tamaño de fuente */
+  font-size: 42px;
 }
 
 .templates {
@@ -100,56 +109,55 @@ body {
 
 .search-section {
   display: flex;
-  justify-content: center; /* Centrar el buscador */
+  justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 500px; /* Aumentar el ancho máximo */
-  margin: 20px 0 30px; /* Aumentar el margen */
+  max-width: 500px;
+  margin: 20px 0 30px;
   padding-left: 2%;
 }
 
 .search-section .search-icon {
-  font-size: 24px; /* Aumentar el tamaño de fuente */
+  font-size: 24px;
   margin-right: 10px;
   color: #666;
 }
 
 .search-section input {
   width: 100%;
-  padding: 12px; /* Aumentar el padding */
-  font-size: 18px; /* Aumentar el tamaño de fuente */
+  padding: 12px;
+  font-size: 18px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
 .no-templates-message {
-  font-size: 1.4rem; /* Aumentar el tamaño de fuente */
+  font-size: 1.4rem;
   color: #e74c3c;
   margin-top: 20px;
 }
 
-/* Media Queries para hacer la página más responsiva */
 @media (max-width: 768px) {
   .home-header, .home-main {
-    padding: 20px; /* Aumentar el padding */
+    padding: 20px;
   }
 
   .home-welcome {
-    font-size: 24px; /* Aumentar el tamaño de fuente */
-    padding-left: 20px; /* Aumentar el padding izquierdo */
+    font-size: 24px;
+    padding-left: 20px;
   }
 
   .home-welcome h1 {
-    font-size: 2em; /* Aumentar el tamaño de fuente */
+    font-size: 2em;
   }
 
   .profile-icon {
-    width: 100px; /* Aumentar el ancho */
-    height: 100px; /* Aumentar la altura */
+    width: 60px; /* Ajustar el ancho */
+    height: 60px; /* Ajustar la altura */
   }
 
   .home-main {
-    font-size: 1.2em; /* Aumentar el tamaño de fuente */
+    font-size: 1.2em;
   }
 
   .templates {
@@ -158,12 +166,12 @@ body {
   }
 
   .template {
-    width: 100px; /* Aumentar el ancho */
-    height: 150px; /* Aumentar la altura */
-    margin: 10px; /* Aumentar el margen */
+    width: 100px;
+    height: 150px;
+    margin: 10px;
   }
 
   .template-name {
-    font-size: 1em; /* Aumentar el tamaño de fuente */
+    font-size: 1em;
   }
 }
