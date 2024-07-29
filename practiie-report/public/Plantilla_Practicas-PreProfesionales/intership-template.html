@@ -5,58 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informe de Prácticas Pre-Profesionales</title>
     <style>
+        @page {
+            margin: 40px 20px; /* Márgenes de la página */
+        }
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f4f4f9; /* Color de fondo */
-            color: #333; /* Color del texto */
+            margin: 0; /* Eliminar márgenes por defecto del body */
+            padding: 0; /* Eliminar padding por defecto del body */
+            background-color: #f4f4f9;
+            color: #333;
         }
         h1, h2 {
             text-align: center;
-            color: #2c3e50; /* Color de los títulos */
+            color: #2c3e50;
         }
         p {
             margin: 0 0 10px 0;
-            text-align: justify; /* Justificar el texto */
-            max-width: 100%; /* Controlar el ancho del contenido */
-            word-wrap: break-word; /* Ajustar palabras largas */
+            text-align: justify;
+            max-width: 100%;
+            word-wrap: break-word;
         }
         .section {
-            margin-bottom: 20px;
+            margin: 20px 0;
             padding: 10px;
-            background-color: #ffffff; /* Fondo blanco para secciones */
-            border: 1px solid #ddd; /* Borde de las secciones */
-            border-radius: 5px; /* Bordes redondeados */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra para las secciones */
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            page-break-inside: avoid; /* Evitar saltos de página dentro de la sección */
         }
         .section-title {
             font-weight: bold;
-            color: #3e9dc2; /* Color de los títulos de las secciones */
+            color: #3e9dc2;
         }
         .content {
             padding-left: 15px;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            word-wrap: break-word; /* Ajustar palabras largas en celdas */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        .cover-section {
+            text-align: center;
+            margin: 100px 0;
+        }
+        .cover-section p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .cover-section .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .table-section {
+            margin: 20px 0;
+        }
+        .logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .logo img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
+    <div class="logo">
+        <img src="/home/juan-daza/Desktop/PractiiceReport/PR-FRONT/practiie-report/public/logo-img.png" alt="PUCE Manabí">
+    </div>
     <h1>Informe de Prácticas Pre-Profesionales</h1>
-    
-    <div class="section">
+
+    <div class="section cover-section">
+        <h2>Referencia de la Entidad Contraparte</h2>
         <p><span class="section-title">Nombre del Reporte:</span> {{report_name}}</p>
         <p><span class="section-title">Nombre del Estudiante:</span> {{student_name}}</p>
         <p><span class="section-title">Año del Estudiante:</span> {{student_year}}</p>
         <p><span class="section-title">Período de Prácticas:</span> {{internship_period}}</p>
-        <p><span class="section-title">Nombre de la Empresa:</span> {{company_name}}</p>
-        <p><span class="section-title">Dirección de la Empresa:</span> {{company_address}}</p>
-        <p><span class="section-title">Teléfono de la Empresa:</span> {{company_phone}}</p>
-        <p><span class="section-title">Fax de la Empresa:</span> {{company_fax}}</p>
-        <p><span class="section-title">Correo Electrónico de la Empresa:</span> {{company_email}}</p>
-        <p><span class="section-title">Nombre del Supervisor:</span> {{supervisor_name}}</p>
-        <p><span class="section-title">Cargo del Supervisor:</span> {{supervisor_position}}</p>
-        <p><span class="section-title">Profesión del Supervisor:</span> {{supervisor_profession}}</p>
-        <p><span class="section-title">Teléfono del Supervisor:</span> {{supervisor_phone}}</p>
-        <p><span class="section-title">Fax del Supervisor:</span> {{supervisor_fax}}</p>
-        <p><span class="section-title">Correo Electrónico del Supervisor:</span> {{supervisor_email}}</p>
+    </div>
+
+    <div class="section">
+        <h2>Información de la Empresa</h2>
+        <table>
+            <tr>
+                <th>Nombre de la Empresa</th>
+                <td>{{company_name}}</td>
+            </tr>
+            <tr>
+                <th>Dirección de la Empresa</th>
+                <td>{{company_address}}</td>
+            </tr>
+            <tr>
+                <th>Teléfono de la Empresa</th>
+                <td>{{company_phone}}</td>
+            </tr>
+            <tr>
+                <th>Fax de la Empresa</th>
+                <td>{{company_fax}}</td>
+            </tr>
+            <tr>
+                <th>Correo Electrónico de la Empresa</th>
+                <td>{{company_email}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Información del Supervisor</h2>
+        <table>
+            <tr>
+                <th>Nombre del Supervisor</th>
+                <td>{{supervisor_name}}</td>
+            </tr>
+            <tr>
+                <th>Cargo del Supervisor</th>
+                <td>{{supervisor_position}}</td>
+            </tr>
+            <tr>
+                <th>Profesión del Supervisor</th>
+                <td>{{supervisor_profession}}</td>
+            </tr>
+            <tr>
+                <th>Teléfono del Supervisor</th>
+                <td>{{supervisor_phone}}</td>
+            </tr>
+            <tr>
+                <th>Fax del Supervisor</th>
+                <td>{{supervisor_fax}}</td>
+            </tr>
+            <tr>
+                <th>Correo Electrónico del Supervisor</th>
+                <td>{{supervisor_email}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Descripción de la Empresa</h2>
         <p><span class="section-title">Descripción de la Empresa:</span> {{company_description}}</p>
         <p><span class="section-title">Ubicación de la Empresa:</span> {{company_location}}</p>
         <p><span class="section-title">Acceso a la Empresa:</span> {{company_access}}</p>
@@ -65,16 +162,58 @@
         <p><span class="section-title">Estructura Organizacional de la Empresa:</span> {{company_organizational_structure}}</p>
         <p><span class="section-title">Asignaturas Útiles:</span> {{useful_subjects}}</p>
         <p><span class="section-title">Temas Faltantes:</span> {{missing_topics}}</p>
-        <p><span class="section-title">Semana 1:</span> {{week_1}}</p>
-        <p><span class="section-title">Semana 2:</span> {{week_2}}</p>
-        <p><span class="section-title">Semana 3:</span> {{week_3}}</p>
-        <p><span class="section-title">Semana 4:</span> {{week_4}}</p>
-        <p><span class="section-title">Semana 5:</span> {{week_5}}</p>
-        <p><span class="section-title">Semana 6:</span> {{week_6}}</p>
-        <p><span class="section-title">Semana 7:</span> {{week_7}}</p>
-        <p><span class="section-title">Nombre del Departamento:</span> {{department_name}}</p>
-        <p><span class="section-title">Objetivos:</span> {{objectives}}</p>
-        <p><span class="section-title">Funciones Específicas:</span> {{specific_functions}}</p>
+    </div>
+
+    <div class="section table-section">
+        <h2>Semanas de Prácticas</h2>
+        <table>
+            <tr>
+                <th>Semana</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>Semana 1</td>
+                <td>{{week_1}}</td>
+            </tr>
+            <tr>
+                <td>Semana 2</td>
+                <td>{{week_2}}</td>
+            </tr>
+            <tr>
+                <td>Semana 3</td>
+                <td>{{week_3}}</td>
+            </tr>
+            <tr>
+                <td>Semana 4</td>
+                <td>{{week_4}}</td>
+            </tr>
+            <tr>
+                <td>Semana 5</td>
+                <td>{{week_5}}</td>
+            </tr>
+            <tr>
+                <td>Semana 6</td>
+                <td>{{week_6}}</td>
+            </tr>
+            <tr>
+                <td>Semana 7</td>
+                <td>{{week_7}}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Objetivos y Funciones Específicas</h2>
+        <table>
+            <tr>
+                <th>Objetivos</th>
+                <td>{{objectives}}</td>
+            </tr>
+            <tr>
+                <th>Funciones Específicas</th>
+                <td>{{specific_functions}}</td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>
